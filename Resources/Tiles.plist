@@ -7,9 +7,9 @@
 		<key>tile-big-dot.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{24, 46}, {20, 20}}</string>
+			<string>{{24, 90}, {20, 20}}</string>
 			<key>offset</key>
-			<string>{0, 0}</string>
+			<string>{0, -0}</string>
 			<key>rotated</key>
 			<false/>
 			<key>sourceColorRect</key>
@@ -20,9 +20,9 @@
 		<key>tile-bottom-left-corner.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{24, 2}, {20, 20}}</string>
+			<string>{{24, 24}, {20, 20}}</string>
 			<key>offset</key>
-			<string>{0, 0}</string>
+			<string>{0, -0}</string>
 			<key>rotated</key>
 			<false/>
 			<key>sourceColorRect</key>
@@ -33,9 +33,9 @@
 		<key>tile-bottom-right-corner.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{2, 90}, {20, 20}}</string>
+			<string>{{46, 46}, {20, 20}}</string>
 			<key>offset</key>
-			<string>{0, 0}</string>
+			<string>{0, -0}</string>
 			<key>rotated</key>
 			<false/>
 			<key>sourceColorRect</key>
@@ -46,9 +46,35 @@
 		<key>tile-empty-space.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{2, 68}, {20, 20}}</string>
+			<string>{{24, 68}, {20, 20}}</string>
 			<key>offset</key>
-			<string>{0, 0}</string>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {20, 20}}</string>
+			<key>sourceSize</key>
+			<string>{20, 20}</string>
+		</dict>
+		<key>tile-horizontal-left-end.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{2, 24}, {20, 20}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {20, 20}}</string>
+			<key>sourceSize</key>
+			<string>{20, 20}</string>
+		</dict>
+		<key>tile-horizontal-right-end.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{2, 90}, {20, 20}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
 			<key>rotated</key>
 			<false/>
 			<key>sourceColorRect</key>
@@ -59,9 +85,9 @@
 		<key>tile-horizontal-wall.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{24, 68}, {20, 20}}</string>
+			<string>{{68, 24}, {20, 20}}</string>
 			<key>offset</key>
-			<string>{0, 0}</string>
+			<string>{0, -0}</string>
 			<key>rotated</key>
 			<false/>
 			<key>sourceColorRect</key>
@@ -72,9 +98,9 @@
 		<key>tile-pacman-closed.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{24, 24}, {20, 20}}</string>
+			<string>{{90, 46}, {20, 20}}</string>
 			<key>offset</key>
-			<string>{0, 0}</string>
+			<string>{0, -0}</string>
 			<key>rotated</key>
 			<false/>
 			<key>sourceColorRect</key>
@@ -85,9 +111,9 @@
 		<key>tile-pacman-open-down.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{46, 2}, {20, 20}}</string>
+			<string>{{68, 46}, {20, 20}}</string>
 			<key>offset</key>
-			<string>{0, 0}</string>
+			<string>{0, -0}</string>
 			<key>rotated</key>
 			<false/>
 			<key>sourceColorRect</key>
@@ -100,7 +126,7 @@
 			<key>frame</key>
 			<string>{{2, 2}, {20, 20}}</string>
 			<key>offset</key>
-			<string>{0, 0}</string>
+			<string>{0, -0}</string>
 			<key>rotated</key>
 			<false/>
 			<key>sourceColorRect</key>
@@ -113,7 +139,7 @@
 			<key>frame</key>
 			<string>{{90, 2}, {20, 20}}</string>
 			<key>offset</key>
-			<string>{0, 0}</string>
+			<string>{0, -0}</string>
 			<key>rotated</key>
 			<false/>
 			<key>sourceColorRect</key>
@@ -124,9 +150,9 @@
 		<key>tile-pacman-open-up.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{68, 2}, {20, 20}}</string>
+			<string>{{2, 68}, {20, 20}}</string>
 			<key>offset</key>
-			<string>{0, 0}</string>
+			<string>{0, -0}</string>
 			<key>rotated</key>
 			<false/>
 			<key>sourceColorRect</key>
@@ -137,9 +163,9 @@
 		<key>tile-small-dot-highlight.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{68, 24}, {20, 20}}</string>
+			<string>{{2, 46}, {20, 20}}</string>
 			<key>offset</key>
-			<string>{0, 0}</string>
+			<string>{0, -0}</string>
 			<key>rotated</key>
 			<false/>
 			<key>sourceColorRect</key>
@@ -150,9 +176,9 @@
 		<key>tile-small-dot.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{90, 24}, {20, 20}}</string>
+			<string>{{46, 24}, {20, 20}}</string>
 			<key>offset</key>
-			<string>{0, 0}</string>
+			<string>{0, -0}</string>
 			<key>rotated</key>
 			<false/>
 			<key>sourceColorRect</key>
@@ -163,9 +189,9 @@
 		<key>tile-top-left-corner.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{46, 24}, {20, 20}}</string>
+			<string>{{68, 2}, {20, 20}}</string>
 			<key>offset</key>
-			<string>{0, 0}</string>
+			<string>{0, -0}</string>
 			<key>rotated</key>
 			<false/>
 			<key>sourceColorRect</key>
@@ -176,9 +202,35 @@
 		<key>tile-top-right-corner.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{2, 46}, {20, 20}}</string>
+			<string>{{24, 46}, {20, 20}}</string>
 			<key>offset</key>
-			<string>{0, 0}</string>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {20, 20}}</string>
+			<key>sourceSize</key>
+			<string>{20, 20}</string>
+		</dict>
+		<key>tile-vertical-bottom-end.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{90, 24}, {20, 20}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>rotated</key>
+			<false/>
+			<key>sourceColorRect</key>
+			<string>{{0, 0}, {20, 20}}</string>
+			<key>sourceSize</key>
+			<string>{20, 20}</string>
+		</dict>
+		<key>tile-vertical-top-end.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{46, 2}, {20, 20}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
 			<key>rotated</key>
 			<false/>
 			<key>sourceColorRect</key>
@@ -189,9 +241,9 @@
 		<key>tile-vertical-wall.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{2, 24}, {20, 20}}</string>
+			<string>{{24, 2}, {20, 20}}</string>
 			<key>offset</key>
-			<string>{0, 0}</string>
+			<string>{0, -0}</string>
 			<key>rotated</key>
 			<false/>
 			<key>sourceColorRect</key>

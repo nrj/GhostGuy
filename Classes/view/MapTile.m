@@ -191,10 +191,22 @@
 
 		case MapTileHorizontalWall:
 			return @"tile-horizontal-wall.png";
+
+		case MapTileHorizontalLeftWall:
+			return @"tile-horizontal-left-end.png";
+
+		case MapTileHorizontalRightWall:
+			return @"tile-horizontal-right-end.png";
 			
 		case MapTileVerticalWall:
 			return @"tile-vertical-wall.png";
+
+		case MapTileVerticalTopWall:
+			return @"tile-vertical-top-end.png";
 		
+		case MapTileVerticalBottomWall:
+			return @"tile-vertical-bottom-end.png";
+			
 		case MapTileHighlight:
 			return @"tile-small-dot-highlight.png";
 			
@@ -209,8 +221,8 @@
 	
 	int colNumber = (num % TILE_COLUMNS), rowNumber = (TILE_ROWS - floor(num / TILE_COLUMNS)) - 1;
 	
-	return ccp((TILE_WIDTH * colNumber) + (TILE_WIDTH / 2) - .5, 
-			   (TILE_HEIGHT * rowNumber) + (TILE_HEIGHT /2) - .5);
+	return ccp((TILE_WIDTH * colNumber) + (TILE_WIDTH >> 1),
+			   (TILE_HEIGHT * rowNumber) + (TILE_HEIGHT >> 1));
 }
 
 

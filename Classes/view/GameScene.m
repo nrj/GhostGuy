@@ -111,9 +111,25 @@
 				case MAP_TILE_WALL_HORIZ:
 					type = MapTileHorizontalWall;
 					break;
+
+				case MAP_TILE_WALL_HORIZ_LFT:
+					type = MapTileHorizontalLeftWall;
+					break;
+
+				case MAP_TILE_WALL_HORIZ_RGT:
+					type = MapTileHorizontalRightWall;
+					break;
 					
 				case MAP_TILE_WALL_VERTI:
 					type = MapTileVerticalWall;
+					break;
+					
+				case MAP_TILE_WALL_VERTI_TOP:
+					type = MapTileVerticalTopWall;
+					break;
+					
+				case MAP_TILE_WALL_VERTI_BTM:
+					type = MapTileVerticalBottomWall;
 					break;
 					
 				default:

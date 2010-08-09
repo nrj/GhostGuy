@@ -28,8 +28,9 @@
 	EAGLView *view = [director openGLView];
 	[view setMultipleTouchEnabled:YES];
 	
-	[CCTexture2D setDefaultAlphaPixelFormat:kTexture2DPixelFormat_RGBA8888];	
-		
+	[CCTexture2D setDefaultAlphaPixelFormat:kTexture2DPixelFormat_RGBA8888];
+	
+	[[CCDirector sharedDirector] setProjection:CCDirectorProjection2D];
 	[[CCDirector sharedDirector] runWithScene:[GameScene scene]];
 }
 
