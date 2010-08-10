@@ -164,6 +164,18 @@
 }
 
 
+- (int)weight {
+	
+	if (type == MapTileSmallDot) 
+		return 100;
+	
+	if (type == MapTileBigDot)	
+		return 200;
+	
+	return 0;
+}
+
+
 - (BOOL)isEdible {
 	
 	return (type == MapTileSmallDot || type == MapTileBigDot);

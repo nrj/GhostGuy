@@ -9,6 +9,7 @@
 #import "GameScene.h"
 #import "GhostGuyMap.h"
 #import "Pacman.h"
+#import "Ghost.h"
 #import "MapTile.h"
 #import "MapTileType.h"
 #import "BitmapImage.h"
@@ -26,6 +27,10 @@
 @synthesize spriteSheet;
 
 @synthesize pacman;
+
+@synthesize ghost;
+
+@synthesize gameStarted;
 
 
 + (id)scene {
@@ -176,8 +181,17 @@
 		if (pixelData[i].blue) {
 			
 			// If the blue byte is set, this means a player resides on this tile
+			switch (pixelData[i].blue) {
+						
+				case MAP_TILE_PACMAN_POSITION:
+					pacman = [[Pacman alloc] initWithCurrentTile:tile direction:PlayerDirectionRight];
+					break;
+				case MAP_TILE_GHOST_POSITION:
+					ghost = [[Ghost alloc] initWithCurrentTile:tile direction:PlayerDirectionRight];
+					break;
+			}
 			
-			pacman = [[Pacman alloc] initWithCurrentTile:tile direction:PacmanDirectionRight];			
+
 		}
 		
 		i += 1;
@@ -190,6 +204,15 @@
 		[self addChild:pacman];
 		[pacman release];
 	}
+	
+	if (ghost) {
+		
+		// Add pacman on top of the other tiles
+		
+		[self addChild:ghost];
+		[ghost release];
+	}
+	
 	
 	[self setCurrentMap:map];
 	
@@ -212,6 +235,9 @@
 
 - (void)start {
 	
+	if (gameStarted) 
+		return;
+	
 	id <AStarNode>goal = [self determineTargetNode];
 	
 	NSArray *initialPath = [self findPathToNode:goal fromNode:[pacman currentTile]];
@@ -221,6 +247,8 @@
 		NSArray *actions = [self actionAnimationsForNode:[initialPath objectAtIndex:1]];
 		
 		[pacman runAction:[CCSequence actionsInArray:actions]];
+		
+		[self setGameStarted:YES];
 	}
 }
 
@@ -230,10 +258,17 @@
 
 	for (MapTile *tile in [currentMap tiles]) {
 		
+//		if ([tile row] == 7 && [tile column] == 22) {
+//			
+//			if ([pacman currentTile] == tile) return nil;
+//			
+//			return tile;
+//		}
 		if ([tile isEdible]) {
-			
+		
 			return tile;
 		}
+		
 	}
 	
 	return nil;
@@ -244,8 +279,7 @@
 - (NSArray *)findPathToNode:(id <AStarNode>)goal fromNode:(id <AStarNode>)start {
 	
 	[start setG:[AStarUtil distanceTraveled:start]];
-	[start setH:[AStarUtil manhattanHeuristicForStartNode:start 
-												 endNode:goal]];
+	[start setH:[AStarUtil heuristicForStartNode:start endNode:goal]];
 	[start setF:([start g] + [start h])];
 	
 	NSMutableArray *openList = [NSMutableArray arrayWithObjects:[pacman currentTile], NULL];
@@ -261,7 +295,8 @@
 			
 			// Find the best node in the open list
 			if (!currentNode || [node f] < [currentNode f]) {
-				currentNode = node;
+
+					currentNode = node;
 			}
 		}
 		
@@ -292,24 +327,31 @@
 			
 			for (id <AStarNode>neighbor in neighbors) {
 				
-				if ([closedList containsObject:neighbor] && newG < [neighbor g]) {
+				if (neighbor == [ghost currentTile]) continue;
+				
+				//if ([closedList containsObject:neighbor] && newG < [neighbor g]) {
+//					
+//					[neighbor setG:newG];
+//					[neighbor setH:[AStarUtil heuristicForStartNode:neighbor endNode:goal]];
+//					[neighbor setF:(newG + [neighbor h])];
+//					[neighbor setParentNode:currentNode];
+//				}
+//				else if ([openList containsObject:neighbor] && newG < [neighbor g]) {
+//					
+//					[neighbor setG:newG];
+//					[neighbor setH:[AStarUtil heuristicForStartNode:neighbor endNode:goal]];
+//					[neighbor setF:(newG + [neighbor h])];
+//					[neighbor setParentNode:currentNode];
+//				}				
+//				else 
+				if (![openList containsObject:neighbor] && ![closedList containsObject:neighbor]){
 					
 					[neighbor setG:newG];
+					[neighbor setH:[AStarUtil heuristicForStartNode:neighbor endNode:goal]];
 					[neighbor setF:(newG + [neighbor h])];
 					[neighbor setParentNode:currentNode];
-				}
-				else if ([openList containsObject:neighbor] && newG < [neighbor g]) {
 					
-					[neighbor setG:newG];
-					[neighbor setF:(newG + [neighbor h])];
-					[neighbor setParentNode:currentNode];
-				}				
-				else if (![openList containsObject:neighbor] && ![closedList containsObject:neighbor]){
-					
-					[neighbor setG:newG];
-					[neighbor setH:[AStarUtil manhattanHeuristicForStartNode:neighbor endNode:goal]];
-					[neighbor setF:(newG + [neighbor h])];
-					[neighbor setParentNode:currentNode];
+					//NSLog(@"F is %d", [neighbor f]);
 					
 					[openList addObject:neighbor];
 				}
@@ -349,25 +391,25 @@
 
 - (void)pacman:(id)sender willMoveTo:(MapTile *)tile {
 	
-	NSLog(@"pacman:willMoveTo:%@", tile);
+	//NSLog(@"pacman:willMoveTo:%@", tile);
 	
 	int newDirection = -1;
 	
 	if ([tile getLeftTileIndex] == [[pacman currentTile] index]) {
 		
-		newDirection = PacmanDirectionRight;
+		newDirection = PlayerDirectionRight;
 	}
 	else if ([tile getRightTileIndex] == [[pacman currentTile] index]) {
 
-		newDirection = PacmanDirectionLeft;
+		newDirection = PlayerDirectionLeft;
 	}
 	else if ([tile getTopTileIndex] == [[pacman currentTile] index]) {
 
-		newDirection = PacmanDirectionDown;
+		newDirection = PlayerDirectionDown;
 	}
 	else if ([tile getBottomTileIndex] == [[pacman currentTile] index]) {
 
-		newDirection = PacmanDirectionUp;
+		newDirection = PlayerDirectionUp;
 	}
 	
 	[pacman setDirection:newDirection];
@@ -376,7 +418,7 @@
 
 - (void)pacman:(id)sender didMoveTo:(MapTile *)tile {
 	
-	NSLog(@"pacman:didMoveTo:%@", tile);
+	//#NSLog(@"pacman:didMoveTo:%@", tile);
 
 	if ([tile type] == MapTileSmallDot || [tile type] == MapTileBigDot) {
 		

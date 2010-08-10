@@ -15,7 +15,7 @@
 
 + (int)distanceTraveled:(id <AStarNode>)node;
 
-+ (int)manhattanHeuristicForStartNode:(id <AStarNode>)sNode endNode:(id <AStarNode>)eNode;
++ (int)heuristicForStartNode:(id <AStarNode>)sNode endNode:(id <AStarNode>)eNode;
 
 
 @end

@@ -9,7 +9,7 @@
 #import "cocos2d.h"
 #import "AStarNode.h"
 
-@class GhostGuyMap, Pacman;
+@class GhostGuyMap, Pacman, Ghost;
 
 
 @interface GameScene : CCLayer {
@@ -18,6 +18,8 @@
 	GhostGuyMap *currentMap;
 	CCSpriteSheet *spriteSheet;
 	Pacman *pacman;
+	Ghost *ghost;
+	BOOL gameStarted;
 }
 
 
@@ -25,7 +27,8 @@
 @property(readwrite, retain) GhostGuyMap *currentMap;
 @property(readwrite, retain) CCSpriteSheet *spriteSheet;
 @property(readwrite, retain) Pacman *pacman;
-
+@property(readwrite, retain) Ghost *ghost;
+@property(readwrite, assign) BOOL gameStarted;
 
 + (id)scene;
 

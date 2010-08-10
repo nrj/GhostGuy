@@ -30,6 +30,13 @@ typedef enum {
 
 
 typedef enum {
+
+	MAP_TILE_PACMAN_POSITION = 0x66,
+	MAP_TILE_GHOST_POSITION = 0xFF
+} MapTilePlayerPosition;
+
+
+typedef enum {
 	
 	MapTileEmptySpace,
 	MapTileSmallDot,

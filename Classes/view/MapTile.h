@@ -65,4 +65,6 @@
 
 + (CGPoint)positionForIndex:(int)num;
 
+- (int)weight;
+
 @end

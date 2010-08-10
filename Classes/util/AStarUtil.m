@@ -43,9 +43,11 @@
 }
 
 
-+ (int)manhattanHeuristicForStartNode:(id <AStarNode>)sNode endNode:(id <AStarNode>)eNode {
++ (int)heuristicForStartNode:(id <AStarNode>)sNode endNode:(id <AStarNode>)eNode {
 	
-	return abs([sNode row] - [eNode row]) + abs([sNode column] - [eNode column]);
+	int manhattan = abs([sNode row] - [eNode row]) + abs([sNode column] - [eNode column]);
+	
+	return (manhattan - [sNode weight]);
 }
 
 
