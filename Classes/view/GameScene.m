@@ -44,8 +44,9 @@
 	
 	if ((self = [super init])) {
 		
-		[self setCurrentLevel:0];
+		[self setIsTouchEnabled:YES];
 		
+		[self setCurrentLevel:0];
 		[self drawMapForLevelNumber:currentLevel];
 	}
 	
@@ -192,43 +193,73 @@
 	
 	[self setCurrentMap:map];
 	
-	[self calculateBestPath];
 }
 
 
-/*
- * Basic implemenation of the A* algorithm, calculates the best path to the ghost and
- * animates moving there, eating dots along the way
- */
-- (void)calculateBestPath {
 
-	id <AStarNode>start = [pacman currentTile];
-	id <AStarNode>goal = nil;
+- (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+	
+	// Choose one of the touches to work with
+	UITouch *touch = [touches anyObject];
+	CGPoint location = [touch locationInView:[touch view]];
+	location = [[CCDirector sharedDirector] convertToGL:location];
+	
+	NSLog(@"Touched %0.f/%0.f", location.x, location.y);
+	
+	[self start];
+}
+
+
+- (void)start {
+	
+	id <AStarNode>goal = [self determineTargetNode];
+	
+	NSArray *initialPath = [self findPathToNode:goal fromNode:[pacman currentTile]];
+	
+	if ([initialPath count] > 0) {
+		
+		NSArray *actions = [self actionAnimationsForNode:[initialPath objectAtIndex:1]];
+		
+		[pacman runAction:[CCSequence actionsInArray:actions]];
+	}
+}
+
+
+
+- (id <AStarNode>)determineTargetNode {
+
+	for (MapTile *tile in [currentMap tiles]) {
+		
+		if ([tile isEdible]) {
+			
+			return tile;
+		}
+	}
+	
+	return nil;
+}
+
+
+
+- (NSArray *)findPathToNode:(id <AStarNode>)goal fromNode:(id <AStarNode>)start {
 	
 	[start setG:[AStarUtil distanceTraveled:start]];
 	[start setH:[AStarUtil manhattanHeuristicForStartNode:start 
 												 endNode:goal]];
 	[start setF:([start g] + [start h])];
 	
-	for (int i = 0; i < [[currentMap tiles] count]; i++) {
-			
-		if ([(MapTile *)[[currentMap tiles] objectAtIndex:i] type] == MapTileBigDot) {
-			goal = [[currentMap tiles] objectAtIndex:i];
-			break;
-		}
-	}
-		
 	NSMutableArray *openList = [NSMutableArray arrayWithObjects:[pacman currentTile], NULL];
 	NSMutableArray *closedList = [NSMutableArray array];
+	NSMutableArray *pathToTake = [NSMutableArray array];
 	
-	while (1) {
-
+	
+	while (1) {	
+				
 		id <AStarNode>currentNode = NULL;
 		
-		for (int i = 0; i < [openList count]; i++) {
+		for (id <AStarNode>node in openList) {
 			
 			// Find the best node in the open list
-			id <AStarNode>node = [openList objectAtIndex:i];
 			if (!currentNode || [node f] < [currentNode f]) {
 				currentNode = node;
 			}
@@ -236,9 +267,18 @@
 		
 		if (currentNode == goal) { 
 			
-			// We're done.
+			id <AStarNode>next = goal;
+			
+			while (next) {
+				
+				
+				[pathToTake insertObject:next atIndex:0];
+				
+				next = [next parentNode];
+			}
 			
 			break;
+			
 		}
 		else {
 			
@@ -248,63 +288,68 @@
 			
 			NSArray *neighbors = [currentNode getWalkableNeighbors:[currentMap tiles]];
 			
-			for (int i = 0; i < [neighbors count]; i++) {
+			int newG = [AStarUtil distanceTraveled:currentNode] + 1;
+			
+			for (id <AStarNode>neighbor in neighbors) {
 				
-				id <AStarNode>node = [neighbors objectAtIndex:i];
-
-				if (![openList containsObject:node] && ![closedList containsObject:node]) {
+				if ([closedList containsObject:neighbor] && newG < [neighbor g]) {
 					
-					[node setParentNode:currentNode];
-					[node setG:[AStarUtil distanceTraveled:node]];
-					[node setH:[AStarUtil manhattanHeuristicForStartNode:node 
-																 endNode:goal]];
-					[node setF:([node g] + [node h])];
-					 
-					[openList addObject:node];
+					[neighbor setG:newG];
+					[neighbor setF:(newG + [neighbor h])];
+					[neighbor setParentNode:currentNode];
 				}
-				
-				// TODO
-				// if the neighbor is already in open list, recalculate its G value
-				//    if the new G value is lower, update it, and set its parent to this node
-				// 
-				//
-				// if the neighbor is already in the closed list, recalculate its G value
-				//    if the new G value is lower, update it, and set its parent to this node
-				//
-				
+				else if ([openList containsObject:neighbor] && newG < [neighbor g]) {
+					
+					[neighbor setG:newG];
+					[neighbor setF:(newG + [neighbor h])];
+					[neighbor setParentNode:currentNode];
+				}				
+				else if (![openList containsObject:neighbor] && ![closedList containsObject:neighbor]){
+					
+					[neighbor setG:newG];
+					[neighbor setH:[AStarUtil manhattanHeuristicForStartNode:neighbor endNode:goal]];
+					[neighbor setF:(newG + [neighbor h])];
+					[neighbor setParentNode:currentNode];
+					
+					[openList addObject:neighbor];
+				}
 			}
-		}
+		}	
 	}
 	
-	id <AStarNode>parent = goal;
-	NSMutableArray *actions = [NSMutableArray array];
-	while (parent) {
+	for (id <AStarNode>node in pathToTake) {
 	
-		id actionWillMove = [CCCallFuncND actionWithTarget:self 
-												  selector:@selector(pacman:willMoveTo:) 
-													  data:parent];
-		
-		id actionMove = [CCMoveTo actionWithDuration:.18f
-											position:[parent position]];
-		
-		id actionDidMove = [CCCallFuncND actionWithTarget:self 
-												 selector:@selector(pacman:didMoveTo:)
-													 data:parent];
-		
-		[actions insertObject:actionDidMove atIndex:0];
-		[actions insertObject:actionMove atIndex:0];
-		[actions insertObject:actionWillMove atIndex:0];
-		
-		parent = [parent parentNode];
+		[node setParentNode:nil];
 	}
 	
-	[pacman runAction:[CCSequence actionsInArray:actions]];
+	return [NSArray arrayWithArray:pathToTake];
+}
+
+
+
+- (NSArray *)actionAnimationsForNode:(id <AStarNode>)node {
+	
+	id actionWillMove = [CCCallFuncND actionWithTarget:self 
+											  selector:@selector(pacman:willMoveTo:) 
+												  data:node];
+		
+	id actionMove = [CCMoveTo actionWithDuration:.15f
+										position:[node position]];
+		
+	id actionDidMove = [CCCallFuncND actionWithTarget:self 
+											 selector:@selector(pacman:didMoveTo:)
+												 data:node];
+	
+	return [NSArray arrayWithObjects:actionWillMove, actionMove, actionDidMove, NULL];
 }
 
 
 #pragma mark Pacman Delegate Methods 
 
+
 - (void)pacman:(id)sender willMoveTo:(MapTile *)tile {
+	
+	NSLog(@"pacman:willMoveTo:%@", tile);
 	
 	int newDirection = -1;
 	
@@ -324,17 +369,14 @@
 
 		newDirection = PacmanDirectionUp;
 	}
-	else {
-		
-		return;
-	}
 	
 	[pacman setDirection:newDirection];
-	[pacman nom];
 }
 
 
 - (void)pacman:(id)sender didMoveTo:(MapTile *)tile {
+	
+	NSLog(@"pacman:didMoveTo:%@", tile);
 
 	if ([tile type] == MapTileSmallDot || [tile type] == MapTileBigDot) {
 		
@@ -343,7 +385,23 @@
 	}
 	
 	[pacman setCurrentTile:tile];
+	
+	// Calculate the next path
+	
+	id <AStarNode>goal = [self determineTargetNode];
+	
+	NSArray *path = [self findPathToNode:goal fromNode:tile];
+	
+	if ([path count] > 0) {
+		
+		NSArray *actions = [self actionAnimationsForNode:[path objectAtIndex:1]];
+		
+		[[CCActionManager sharedManager] addAction:[CCSequence actionsInArray:actions] 
+											target:sender 
+											paused:NO];
+	}
 }
+
 
 
 #pragma mark Convenience Methods

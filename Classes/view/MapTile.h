@@ -34,11 +34,14 @@
 @property(readwrite, assign) int g;
 @property(readwrite, assign) int h;
 
+- (NSString *)description;
+
 - (id)initWithType:(MapTileType)aType index:(int)num;
 
 - (MapTileType)type;
 - (void)setType:(MapTileType)value;
 - (BOOL)isWalkable;
+- (BOOL)isEdible;
 
 - (int)row;
 - (int)column;

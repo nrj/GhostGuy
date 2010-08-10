@@ -7,6 +7,7 @@
 
 
 #import "cocos2d.h"
+#import "AStarNode.h"
 
 @class GhostGuyMap, Pacman;
 
@@ -25,11 +26,18 @@
 @property(readwrite, retain) CCSpriteSheet *spriteSheet;
 @property(readwrite, retain) Pacman *pacman;
 
+
 + (id)scene;
+
+- (void)start;
 
 - (void)drawMapForLevelNumber:(int)level;
 
-- (void)calculateBestPath;
+- (id <AStarNode>)determineTargetNode;
+
+- (NSArray *)findPathToNode:(id <AStarNode>)goal fromNode:(id <AStarNode>)start;
+
+- (NSArray *)actionAnimationsForNode:(id <AStarNode>)node;
 
 - (int)winHeight;
 

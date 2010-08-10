@@ -164,6 +164,12 @@
 }
 
 
+- (BOOL)isEdible {
+	
+	return (type == MapTileSmallDot || type == MapTileBigDot);
+}
+
+
 + (NSString *)imageForType:(MapTileType)aType {
 	
 	switch (aType) {
@@ -225,5 +231,10 @@
 			   (TILE_HEIGHT * rowNumber) + (TILE_HEIGHT >> 1));
 }
 
+
+- (NSString *)description {
+
+	return [NSString stringWithFormat:@"<MapTile type=%d, (%d, %d)>", type, [self row], [self column]];
+}
 
 @end
