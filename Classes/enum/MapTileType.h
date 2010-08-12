@@ -51,6 +51,7 @@ typedef enum {
 	MapTileVerticalWall,
 	MapTileVerticalTopWall,
 	MapTileVerticalBottomWall,
-	MapTileHighlight /* for AI path testing */
+	MapTileHighlightSmallDot,
+	MapTileHighlightBigDot/* for AI path testing */
 	
 } MapTileType;

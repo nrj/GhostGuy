@@ -7,8 +7,9 @@
 
 #import <Foundation/Foundation.h>
 #import "PlayerBase.h"
+#import "Player.h"
 
-@interface Pacman : PlayerBase {
+@interface Pacman : PlayerBase <Player> {
 	
 }
 

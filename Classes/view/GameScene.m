@@ -9,7 +9,9 @@
 #import "GameScene.h"
 #import "GhostGuyMap.h"
 #import "Pacman.h"
+#import "PacmanAI.h"
 #import "Ghost.h"
+#import "GhostAI.h"
 #import "MapTile.h"
 #import "MapTileType.h"
 #import "BitmapImage.h"
@@ -20,17 +22,21 @@
 @implementation GameScene
 
 
-@synthesize currentMap;
+@synthesize gameStarted;
 
 @synthesize currentLevel;
+
+@synthesize currentMap;
 
 @synthesize spriteSheet;
 
 @synthesize pacman;
 
+@synthesize pacmanAI;
+
 @synthesize ghost;
 
-@synthesize gameStarted;
+@synthesize ghostAI;
 
 
 + (id)scene {
@@ -50,7 +56,6 @@
 	if ((self = [super init])) {
 		
 		[self setIsTouchEnabled:YES];
-		
 		[self setCurrentLevel:0];
 		[self drawMapForLevelNumber:currentLevel];
 	}
@@ -215,14 +220,11 @@
 	
 	
 	[self setCurrentMap:map];
-	
 }
-
 
 
 - (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
 	
-	// Choose one of the touches to work with
 	UITouch *touch = [touches anyObject];
 	CGPoint location = [touch locationInView:[touch view]];
 	location = [[CCDirector sharedDirector] convertToGL:location];
@@ -238,212 +240,20 @@
 	if (gameStarted) 
 		return;
 	
-	id <AStarNode>goal = [self determineTargetNode];
+	PacmanAI *pai = [[PacmanAI alloc] initWithMap:currentMap pacman:pacman ghost:ghost];
+	GhostAI *gai = [[GhostAI alloc] initWithMap:currentMap pacman:pacman ghost:ghost];
 	
-	NSArray *initialPath = [self findPathToNode:goal fromNode:[pacman currentTile]];
+	[self setPacmanAI:pai];
+	[self setGhostAI:gai];
 	
-	if ([initialPath count] > 0) {
-		
-		NSArray *actions = [self actionAnimationsForNode:[initialPath objectAtIndex:1]];
-		
-		[pacman runAction:[CCSequence actionsInArray:actions]];
-		
-		[self setGameStarted:YES];
-	}
+	[pai start];
+	[gai start];
+	
+	[pai release];
+	[gai release];
+	
+	[self setGameStarted:YES];	
 }
-
-
-
-- (id <AStarNode>)determineTargetNode {
-
-	for (MapTile *tile in [currentMap tiles]) {
-		
-//		if ([tile row] == 7 && [tile column] == 22) {
-//			
-//			if ([pacman currentTile] == tile) return nil;
-//			
-//			return tile;
-//		}
-		if ([tile isEdible]) {
-		
-			return tile;
-		}
-		
-	}
-	
-	return nil;
-}
-
-
-
-- (NSArray *)findPathToNode:(id <AStarNode>)goal fromNode:(id <AStarNode>)start {
-	
-	[start setG:[AStarUtil distanceTraveled:start]];
-	[start setH:[AStarUtil heuristicForStartNode:start endNode:goal]];
-	[start setF:([start g] + [start h])];
-	
-	NSMutableArray *openList = [NSMutableArray arrayWithObjects:[pacman currentTile], NULL];
-	NSMutableArray *closedList = [NSMutableArray array];
-	NSMutableArray *pathToTake = [NSMutableArray array];
-	
-	
-	while (1) {	
-				
-		id <AStarNode>currentNode = NULL;
-		
-		for (id <AStarNode>node in openList) {
-			
-			// Find the best node in the open list
-			if (!currentNode || [node f] < [currentNode f]) {
-
-					currentNode = node;
-			}
-		}
-		
-		if (currentNode == goal) { 
-			
-			id <AStarNode>next = goal;
-			
-			while (next) {
-				
-				
-				[pathToTake insertObject:next atIndex:0];
-				
-				next = [next parentNode];
-			}
-			
-			break;
-			
-		}
-		else {
-			
-			[AStarUtil moveNode:currentNode 
-					   fromList:openList 
-						 toList:closedList];
-			
-			NSArray *neighbors = [currentNode getWalkableNeighbors:[currentMap tiles]];
-			
-			int newG = [AStarUtil distanceTraveled:currentNode] + 1;
-			
-			for (id <AStarNode>neighbor in neighbors) {
-				
-				if (neighbor == [ghost currentTile]) continue;
-				
-				//if ([closedList containsObject:neighbor] && newG < [neighbor g]) {
-//					
-//					[neighbor setG:newG];
-//					[neighbor setH:[AStarUtil heuristicForStartNode:neighbor endNode:goal]];
-//					[neighbor setF:(newG + [neighbor h])];
-//					[neighbor setParentNode:currentNode];
-//				}
-//				else if ([openList containsObject:neighbor] && newG < [neighbor g]) {
-//					
-//					[neighbor setG:newG];
-//					[neighbor setH:[AStarUtil heuristicForStartNode:neighbor endNode:goal]];
-//					[neighbor setF:(newG + [neighbor h])];
-//					[neighbor setParentNode:currentNode];
-//				}				
-//				else 
-				if (![openList containsObject:neighbor] && ![closedList containsObject:neighbor]){
-					
-					[neighbor setG:newG];
-					[neighbor setH:[AStarUtil heuristicForStartNode:neighbor endNode:goal]];
-					[neighbor setF:(newG + [neighbor h])];
-					[neighbor setParentNode:currentNode];
-					
-					//NSLog(@"F is %d", [neighbor f]);
-					
-					[openList addObject:neighbor];
-				}
-			}
-		}	
-	}
-	
-	for (id <AStarNode>node in pathToTake) {
-	
-		[node setParentNode:nil];
-	}
-	
-	return [NSArray arrayWithArray:pathToTake];
-}
-
-
-
-- (NSArray *)actionAnimationsForNode:(id <AStarNode>)node {
-	
-	id actionWillMove = [CCCallFuncND actionWithTarget:self 
-											  selector:@selector(pacman:willMoveTo:) 
-												  data:node];
-		
-	id actionMove = [CCMoveTo actionWithDuration:.15f
-										position:[node position]];
-		
-	id actionDidMove = [CCCallFuncND actionWithTarget:self 
-											 selector:@selector(pacman:didMoveTo:)
-												 data:node];
-	
-	return [NSArray arrayWithObjects:actionWillMove, actionMove, actionDidMove, NULL];
-}
-
-
-#pragma mark Pacman Delegate Methods 
-
-
-- (void)pacman:(id)sender willMoveTo:(MapTile *)tile {
-	
-	//NSLog(@"pacman:willMoveTo:%@", tile);
-	
-	int newDirection = -1;
-	
-	if ([tile getLeftTileIndex] == [[pacman currentTile] index]) {
-		
-		newDirection = PlayerDirectionRight;
-	}
-	else if ([tile getRightTileIndex] == [[pacman currentTile] index]) {
-
-		newDirection = PlayerDirectionLeft;
-	}
-	else if ([tile getTopTileIndex] == [[pacman currentTile] index]) {
-
-		newDirection = PlayerDirectionDown;
-	}
-	else if ([tile getBottomTileIndex] == [[pacman currentTile] index]) {
-
-		newDirection = PlayerDirectionUp;
-	}
-	
-	[pacman setDirection:newDirection];
-}
-
-
-- (void)pacman:(id)sender didMoveTo:(MapTile *)tile {
-	
-	//#NSLog(@"pacman:didMoveTo:%@", tile);
-
-	if ([tile type] == MapTileSmallDot || [tile type] == MapTileBigDot) {
-		
-		// Is the tile edible?
-		[tile setType:MapTileEmptySpace]; // Nom it
-	}
-	
-	[pacman setCurrentTile:tile];
-	
-	// Calculate the next path
-	
-	id <AStarNode>goal = [self determineTargetNode];
-	
-	NSArray *path = [self findPathToNode:goal fromNode:tile];
-	
-	if ([path count] > 0) {
-		
-		NSArray *actions = [self actionAnimationsForNode:[path objectAtIndex:1]];
-		
-		[[CCActionManager sharedManager] addAction:[CCSequence actionsInArray:actions] 
-											target:sender 
-											paused:NO];
-	}
-}
-
 
 
 #pragma mark Convenience Methods
@@ -456,7 +266,6 @@
 }
 
 
-
 - (int)winWidth
 {
 	// 480
@@ -464,9 +273,12 @@
 }
 
 
-
 - (void) dealloc {
 
+	[pacmanAI release];
+	[pacman release];
+	[ghostAI release];
+	[ghost release];
 	[currentMap release];
 	[super dealloc];
 }

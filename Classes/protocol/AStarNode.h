@@ -25,10 +25,12 @@
 
 - (NSArray *)getWalkableNeighbors:(NSArray *)nodes;
 
-- (void)setParentNode:(id <AStarNode>)value;
-- (id <AStarNode>)parentNode;
+- (void)setParentNode:(id <AStarNode>)value forId:(int)i;
+- (id <AStarNode>)getParentNodeForId:(int)i;
+- (void)deleteParentNodeForId:(int)i;
 
 - (void)highlight;
+- (void)unHighlight;
 
 - (int)weight;
 

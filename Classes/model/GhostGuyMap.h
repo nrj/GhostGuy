@@ -25,4 +25,8 @@
 
 - (id)initWithLevelNumber:(int)level;
 
+- (NSArray *)edibleTiles;
+
+- (NSArray *)edibleTilesInQuadrant:(int)q;
+
 @end

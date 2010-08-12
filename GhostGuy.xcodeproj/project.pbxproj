@@ -12,6 +12,9 @@
 		0B071E89121068F100C588E3 /* tile-vertical-bottom-end.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B071E85121068F000C588E3 /* tile-vertical-bottom-end.png */; };
 		0B071E8A121068F100C588E3 /* tile-vertical-top-end.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B071E86121068F000C588E3 /* tile-vertical-top-end.png */; };
 		0B0975D211D03A6800AFB942 /* BitmapImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B0975D111D03A6800AFB942 /* BitmapImage.m */; };
+		0B24739F121204B300144771 /* GhostAI.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B24739B121204B300144771 /* GhostAI.m */; };
+		0B2473A0121204B300144771 /* PacmanAI.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B24739D121204B300144771 /* PacmanAI.m */; };
+		0B2473A51212F30200144771 /* AIBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2473A41212F30200144771 /* AIBase.m */; };
 		0BA3CCD211D96D1500108B74 /* AStarUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BA3CCD111D96D1500108B74 /* AStarUtil.m */; };
 		0BA3CF3011DA7DD400108B74 /* tile-pacman-open-down.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BA3CF2B11DA7DD400108B74 /* tile-pacman-open-down.png */; };
 		0BA3CF3111DA7DD400108B74 /* tile-pacman-open-left.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BA3CF2C11DA7DD400108B74 /* tile-pacman-open-left.png */; };
@@ -273,6 +276,15 @@
 		0B071E86121068F000C588E3 /* tile-vertical-top-end.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tile-vertical-top-end.png"; sourceTree = "<group>"; };
 		0B0975D011D03A6800AFB942 /* BitmapImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BitmapImage.h; sourceTree = "<group>"; };
 		0B0975D111D03A6800AFB942 /* BitmapImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BitmapImage.m; sourceTree = "<group>"; };
+		0B24739B121204B300144771 /* GhostAI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GhostAI.m; sourceTree = "<group>"; };
+		0B24739C121204B300144771 /* GhostAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GhostAI.h; sourceTree = "<group>"; };
+		0B24739D121204B300144771 /* PacmanAI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PacmanAI.m; sourceTree = "<group>"; };
+		0B24739E121204B300144771 /* PacmanAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PacmanAI.h; sourceTree = "<group>"; };
+		0B2473A31212F30200144771 /* AIBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AIBase.h; sourceTree = "<group>"; };
+		0B2473A41212F30200144771 /* AIBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AIBase.m; sourceTree = "<group>"; };
+		0B2473A6121312DF00144771 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
+		0B2473BB1213145300144771 /* PacmanAIDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PacmanAIDelegate.h; sourceTree = "<group>"; };
+		0B2473BC1213146400144771 /* GhostAIDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GhostAIDelegate.h; sourceTree = "<group>"; };
 		0BA3CCD011D96D1500108B74 /* AStarUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AStarUtil.h; sourceTree = "<group>"; };
 		0BA3CCD111D96D1500108B74 /* AStarUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AStarUtil.m; sourceTree = "<group>"; };
 		0BA3CD0611D9739500108B74 /* AStarNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AStarNode.h; sourceTree = "<group>"; };
@@ -603,6 +615,9 @@
 			isa = PBXGroup;
 			children = (
 				0BA3CD0611D9739500108B74 /* AStarNode.h */,
+				0B2473A6121312DF00144771 /* Player.h */,
+				0B2473BB1213145300144771 /* PacmanAIDelegate.h */,
+				0B2473BC1213146400144771 /* GhostAIDelegate.h */,
 			);
 			path = protocol;
 			sourceTree = "<group>";
@@ -660,6 +675,19 @@
 			path = enum;
 			sourceTree = "<group>";
 		};
+		0BE3F615121203C600871E65 /* AI */ = {
+			isa = PBXGroup;
+			children = (
+				0B24739B121204B300144771 /* GhostAI.m */,
+				0B24739C121204B300144771 /* GhostAI.h */,
+				0B24739D121204B300144771 /* PacmanAI.m */,
+				0B24739E121204B300144771 /* PacmanAI.h */,
+				0B2473A31212F30200144771 /* AIBase.h */,
+				0B2473A41212F30200144771 /* AIBase.m */,
+			);
+			path = AI;
+			sourceTree = "<group>";
+		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -712,6 +740,7 @@
 		2D500B1D0D5A766B00DBA0E3 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				0BE3F615121203C600871E65 /* AI */,
 				0BA3CD0511D9736A00108B74 /* protocol */,
 				0B0975CF11D03A1D00AFB942 /* util */,
 				0BD4AB3A11D0117C005A40DF /* enum */,
@@ -1231,6 +1260,9 @@
 				0BA3CCD211D96D1500108B74 /* AStarUtil.m in Sources */,
 				0BE3F4821211B9C000871E65 /* PlayerBase.m in Sources */,
 				0BE3F48B1211BAED00871E65 /* Ghost.m in Sources */,
+				0B24739F121204B300144771 /* GhostAI.m in Sources */,
+				0B2473A0121204B300144771 /* PacmanAI.m in Sources */,
+				0B2473A51212F30200144771 /* AIBase.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

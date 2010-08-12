@@ -1,15 +1,15 @@
 //
-//  Ghost.h
+//  PacmanAI.h
 //  GhostGuy
 //
 //  Copyright 2010 Nick Jensen <http://goto11.net>
 //
 
 #import <Foundation/Foundation.h>
-#import "PlayerBase.h"
-#import "Player.h"
+#import "AIBase.h"
+#import "PacmanAIDelegate.h"
 
-@interface Ghost : PlayerBase <Player> {
+@interface PacmanAI : AIBase <PacmanAIDelegate> { 
 
 }
 

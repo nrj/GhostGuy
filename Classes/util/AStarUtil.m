@@ -27,15 +27,15 @@
 }
 
 
-+ (int)distanceTraveled:(id <AStarNode>)node {
++ (int)distanceTraveledToNode:(id <AStarNode>)node forId:(int)uid {
 
 	int i = 0;
 	
 	id <AStarNode>n = node;
 	
-	while([n parentNode]) {
+	while([n getParentNodeForId:uid]) {
 	
-		n = [n parentNode];
+		n = [n getParentNodeForId:uid];
 		i++;
 	}
 	
@@ -47,7 +47,8 @@
 	
 	int manhattan = abs([sNode row] - [eNode row]) + abs([sNode column] - [eNode column]);
 	
-	return (manhattan - [sNode weight]);
+	//return (manhattan - [sNode weight]);
+	return manhattan;
 }
 
 

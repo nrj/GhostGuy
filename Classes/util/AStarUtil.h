@@ -13,7 +13,7 @@
 
 + (void)moveNode:(id <AStarNode>)node fromList:(NSMutableArray *)fromList toList:(NSMutableArray *)toList;
 
-+ (int)distanceTraveled:(id <AStarNode>)node;
++ (int)distanceTraveledToNode:(id <AStarNode>)node forId:(int)uid;
 
 + (int)heuristicForStartNode:(id <AStarNode>)sNode endNode:(id <AStarNode>)eNode;
 

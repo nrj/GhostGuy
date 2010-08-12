@@ -44,7 +44,7 @@
 	
 	// Abstract
 	@throw [NSException exceptionWithName:NSGenericException 
-								   reason:@"No implementation found 'imageForDirection:'." 
+								   reason:@"No implementation found for 'imageForDirection:'." 
 								 userInfo:nil];
 }
 

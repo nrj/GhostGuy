@@ -24,15 +24,15 @@
 
 	MapTileType type;
 	int index;
-	id <AStarNode>parentNode;
 	int f, g, h;
+	NSMutableDictionary *parentMap; // TODO - find something else that uses weak keys
 }
 
 @property(readwrite, assign) int index;
-@property(readwrite, assign) id <AStarNode>parentNode;
 @property(readwrite, assign) int f;
 @property(readwrite, assign) int g;
 @property(readwrite, assign) int h;
+@property(readwrite, retain) NSMutableDictionary *parentMap;
 
 - (NSString *)description;
 

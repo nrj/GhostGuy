@@ -14,13 +14,13 @@
 
 @synthesize index;
 
-@synthesize parentNode;
-
 @synthesize f;
 
 @synthesize g;
 
 @synthesize h;
+
+@synthesize parentMap;
 
 
 - (id)initWithType:(MapTileType)aType index:(int)num {
@@ -31,13 +31,19 @@
 		type = aType;
 		[self setIndex:num];
 		[self setPosition:[MapTile positionForIndex:index]];
-		[self setParentNode:nil];
+		[self setParentMap:[NSMutableDictionary dictionary]];
 		[self setF:0];
 		[self setG:0];
 		[self setH:0];
 	}
 	
 	return self;
+}
+ 
+- (void)dealloc {
+	 
+	[parentMap release];
+	[super dealloc];
 }
 
 
@@ -72,7 +78,26 @@
 
 - (void)highlight {
 	
-	[self setType:MapTileHighlight];
+	if (type == MapTileSmallDot) {
+		
+		[self setType:MapTileHighlightSmallDot];
+	}
+	else if (type == MapTileBigDot) {
+		
+		[self setType:MapTileHighlightBigDot];
+	}
+}
+
+- (void)unHighlight {
+	
+	if (type == MapTileHighlightSmallDot) {
+		
+		[self setType:MapTileSmallDot];
+	}
+	else if (type == MapTileHighlightBigDot) {
+		
+		[self setType:MapTileBigDot];
+	}
 }
 
 
@@ -160,7 +185,8 @@
 	return (type == MapTileEmptySpace ||
 			type == MapTileSmallDot ||
 			type == MapTileBigDot ||
-			type == MapTileHighlight);
+			type == MapTileHighlightBigDot ||
+			type == MapTileHighlightSmallDot);
 }
 
 
@@ -225,7 +251,8 @@
 		case MapTileVerticalBottomWall:
 			return @"tile-vertical-bottom-end.png";
 			
-		case MapTileHighlight:
+		case MapTileHighlightBigDot:
+		case MapTileHighlightSmallDot:
 			return @"tile-small-dot-highlight.png";
 			
 		default:
@@ -248,5 +275,34 @@
 
 	return [NSString stringWithFormat:@"<MapTile type=%d, (%d, %d)>", type, [self row], [self column]];
 }
+
+
+- (void)setParentNode:(id <AStarNode>)value forId:(int)i {
+
+	NSString *key = [NSString stringWithFormat:@"%d", i];	
+	[parentMap setObject:value forKey:key];
+}
+
+
+- (id <AStarNode>)getParentNodeForId:(int)i {
+	
+	NSString *key = [NSString stringWithFormat:@"%d", i];
+	if ([parentMap objectForKey:key]) {
+	
+		return [parentMap objectForKey:key];
+	}
+	return nil;
+}
+
+
+- (void)deleteParentNodeForId:(int)i {
+
+	NSString *key = [NSString stringWithFormat:@"%d", i];
+	if ([parentMap objectForKey:key]) {
+		
+		[parentMap setValue:nil forKey:key];
+	}
+}
+
 
 @end
