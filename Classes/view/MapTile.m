@@ -107,19 +107,19 @@
 	int topIndex = [self getTopTileIndex], rightIndex = [self getRightTileIndex];
 	int bottomIndex = [self getBottomTileIndex], leftIndex = [self getLeftTileIndex];
 	
-	if (topIndex != -1 && [[nodes objectAtIndex:topIndex] isWalkable]) {
+	if ([nodes count] > topIndex && [[nodes objectAtIndex:topIndex] isWalkable]) {
 
 		[walkable addObject:[nodes objectAtIndex:topIndex]];
 	}
-	if (rightIndex != -1 && [[nodes objectAtIndex:rightIndex] isWalkable]) {
+	if ([nodes count] > rightIndex && [[nodes objectAtIndex:rightIndex] isWalkable]) {
 	
 		[walkable addObject:[nodes objectAtIndex:rightIndex]];
 	}
-	if (bottomIndex != -1 && [[nodes objectAtIndex:bottomIndex] isWalkable]) {
+	if ([nodes count] > bottomIndex && [[nodes objectAtIndex:bottomIndex] isWalkable]) {
 		
 		[walkable addObject:[nodes objectAtIndex:bottomIndex]];
 	}
-	if (leftIndex != -1 && [[nodes objectAtIndex:leftIndex] isWalkable]) {
+	if ([nodes count] > leftIndex && [[nodes objectAtIndex:leftIndex] isWalkable]) {
 		
 		[walkable addObject:[nodes objectAtIndex:leftIndex]];
 	}
@@ -130,53 +130,25 @@
 
 - (int)getTopTileIndex {
 	
-	if ([self isOnTopEdge]) return -1;
 	return (index - TILE_COLUMNS);
 }
 
 
 - (int)getBottomTileIndex {
 	
-	if ([self isOnBottomEdge]) return -1;
 	return (index + TILE_COLUMNS);
 }
 
 
 - (int)getLeftTileIndex {
 	
-	if ([self isOnLeftEdge]) return -1;
 	return (index - 1);
 }
 
 
 - (int)getRightTileIndex {
 	
-	if ([self isOnRightEdge]) return -1;
 	return (index + 1);
-}
-
-
-- (BOOL)isOnTopEdge {
-	
-	return ((index + 1) <= TILE_COLUMNS);
-}
-
-
-- (BOOL)isOnBottomEdge {
-	
-	return ((index + 1) > (TILE_COLUMNS * (TILE_ROWS - 1)));
-}
-
-
-- (BOOL)isOnLeftEdge {
-
-	return ((index - 1) % TILE_COLUMNS == 0);
-}
-
-
-- (BOOL)isOnRightEdge {
-	
-	return ((index + 1) % TILE_COLUMNS == 0);
 }
 
 
@@ -193,10 +165,10 @@
 - (int)weight {
 	
 	if (type == MapTileSmallDot) 
-		return 100;
+		return 10;
 	
 	if (type == MapTileBigDot)	
-		return 200;
+		return 20;
 	
 	return 0;
 }

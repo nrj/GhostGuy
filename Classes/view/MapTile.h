@@ -53,12 +53,6 @@
 - (int)getLeftTileIndex;
 - (int)getRightTileIndex;
 
-- (BOOL)isOnLeftEdge;
-- (BOOL)isOnTopEdge;
-- (BOOL)isOnBottomEdge;
-- (BOOL)isOnRightEdge;
-
-
 - (void)highlight;
 
 + (NSString *)imageForType:(MapTileType)aType;

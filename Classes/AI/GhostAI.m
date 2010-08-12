@@ -50,7 +50,7 @@
 											  selector:@selector(ghost:willMoveTo:) 
 												  data:node];
 	
-	id actionMove = [CCMoveTo actionWithDuration:.15f
+	id actionMove = [CCMoveTo actionWithDuration:.18f
 										position:[node position]];
 	
 	id actionDidMove = [CCCallFuncND actionWithTarget:self 
@@ -67,7 +67,7 @@
 	if (!currentTarget || currentTarget == [ghost currentTile]) {
 		
 		
-				[self setCurrentTarget:(MapTile *)[self randomTargetNode]];
+		[self setCurrentTarget:(MapTile *)[pacman currentTile]];
 	}
 	
 	return currentTarget;

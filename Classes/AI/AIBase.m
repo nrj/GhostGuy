@@ -110,7 +110,12 @@
 
 	NSArray *tileSet = [map edibleTiles];
 		
-	return [tileSet objectAtIndex:(arc4random() % [tileSet count])];
+	if (tileSet && [tileSet count] > 0) {
+		
+		return [tileSet objectAtIndex:(arc4random() % [tileSet count])];
+	}
+	
+	return nil;
 }
 
 
@@ -175,7 +180,7 @@
 					}
 				}
 				
-				if (![openList containsObject:neighbor] && ![closedList containsObject:neighbor]){
+				if (!enemyEncounter && ![openList containsObject:neighbor] && ![closedList containsObject:neighbor]){
 					
 					[neighbor setG:newG];
 					[neighbor setH:[AStarUtil heuristicForStartNode:neighbor endNode:goal]];
