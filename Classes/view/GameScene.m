@@ -39,14 +39,12 @@
 @synthesize ghostAI;
 
 
+
 + (id)scene {
 	
 	CCScene *scene = [CCScene node];
-
 	GameScene *layer = [GameScene node];
-
 	[scene addChild:layer];
-	
 	return scene;
 }
 
@@ -73,6 +71,7 @@
 
 	GhostGuyMap *map = [[GhostGuyMap alloc] initWithLevelNumber:level];
 		
+	NSMutableArray *tiles = [NSMutableArray array];
 	
 	// Load the sprite sheet containing our map tiles and add it to the scene.
 	
@@ -179,7 +178,7 @@
 		tile = [[MapTile alloc] initWithType:type 
 									   index:i];
 
-		[[map tiles] addObject:tile];
+		[tiles addObject:tile];
 		[self addChild:tile];
 		[tile release];
 		
@@ -203,8 +202,6 @@
 	}
 	
 	if (pacman) {
-	
-		// Add pacman on top of the other tiles
 		
 		[self addChild:pacman];
 		[pacman release];
@@ -212,11 +209,11 @@
 	
 	if (ghost) {
 		
-		// Add pacman on top of the other tiles
-		
 		[self addChild:ghost];
 		[ghost release];
 	}
+	
+	[map setTiles:[NSArray arrayWithArray:tiles]];
 	
 	
 	[self setCurrentMap:map];
@@ -225,20 +222,29 @@
 
 - (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
 	
-	UITouch *touch = [touches anyObject];
-	CGPoint location = [touch locationInView:[touch view]];
-	location = [[CCDirector sharedDirector] convertToGL:location];
-	
-	NSLog(@"Touched %0.f/%0.f", location.x, location.y);
-	
-	[self start];
+	if (!gameStarted) {
+
+		[self start];
+	} 
+	else {		
+
+		UITouch *touch = [touches anyObject];
+		CGPoint touchLocation = [touch locationInView:[touch view]];
+		touchLocation = [[CCDirector sharedDirector] convertToGL:touchLocation];
+		
+		for (MapTile *tile in [currentMap tiles]) {
+		
+			if (CGRectContainsPoint([tile rect], touchLocation)) {
+			
+				[ghostAI travelToTile:tile];
+				return;
+			}
+		}
+	}
 }
 
 
 - (void)start {
-	
-	if (gameStarted) 
-		return;
 	
 	PacmanAI *pai = [[PacmanAI alloc] initWithMap:currentMap pacman:pacman ghost:ghost];
 	GhostAI *gai = [[GhostAI alloc] initWithMap:currentMap pacman:pacman ghost:ghost];

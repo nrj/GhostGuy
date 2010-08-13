@@ -15,13 +15,13 @@
 
 	int levelNumber;
 	BitmapImage *levelImage;
-	NSMutableArray *tiles;
+	NSArray *tiles;
 }
 
 
 @property(readwrite, assign) int levelNumber;
 @property(readwrite, retain) BitmapImage *levelImage;
-@property(readwrite, retain) NSMutableArray *tiles;
+@property(readwrite, retain) NSArray *tiles;
 
 - (id)initWithLevelNumber:(int)level;
 

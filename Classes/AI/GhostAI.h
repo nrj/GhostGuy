@@ -13,4 +13,6 @@
 
 }
 
+- (void)travelToTile:(MapTile *)tile;
+
 @end

@@ -20,5 +20,6 @@
 - (double)centerX;
 - (double)centerY;
 
+- (CGRect)rect;
 
 @end

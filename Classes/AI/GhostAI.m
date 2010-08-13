@@ -16,9 +16,37 @@
 
 - (void)start {
 	
-	id <AStarNode>goal = [self updateTargetNode];
+}
+
+
+- (void)travelToTile:(MapTile *)tile {
+
+	if (![tile isWalkable]) {
+		
+		NSArray *neighbors = [tile getWalkableNeighbors:(NSArray *)[map tiles]];
+		
+		if ([neighbors count] > 0) {
+		
+			tile = [neighbors objectAtIndex:(arc4random() % [neighbors count])];
+		}
+		else {
+		
+			return;
+		}
+	}
 	
-	if (goal) {
+	BOOL runAction = NO;
+	
+	if (!currentTarget)  {
+		
+		runAction = YES;
+	}
+	
+	id <AStarNode>goal = tile;
+	
+	[self setCurrentTarget:tile];
+	
+	if (runAction) {
 		
 		NSArray *path = [self findPathToNode:goal 
 									fromNode:[ghost currentTile]];
@@ -28,7 +56,7 @@
 			NSArray *moveActions = [self moveActionsForNode:[path objectAtIndex:1]];
 			[ghost runAction:[CCSequence actionsInArray:moveActions]];
 		}
-	}
+	}	
 }
 
 
@@ -50,7 +78,7 @@
 											  selector:@selector(ghost:willMoveTo:) 
 												  data:node];
 	
-	id actionMove = [CCMoveTo actionWithDuration:.18f
+	id actionMove = [CCMoveTo actionWithDuration:.22f
 										position:[node position]];
 	
 	id actionDidMove = [CCCallFuncND actionWithTarget:self 
@@ -66,8 +94,7 @@
 		
 	if (!currentTarget || currentTarget == [ghost currentTile]) {
 		
-		
-		[self setCurrentTarget:(MapTile *)[pacman currentTile]];
+		[self setCurrentTarget:nil];
 	}
 	
 	return currentTarget;
@@ -93,16 +120,13 @@
 	
 	NSArray *path = [self findPathToNode:goal fromNode:tile];
 	
-	if ([path count] > 0) {
+	if (goal && [path count] > 0) {
 		
 		NSArray *actions = [self moveActionsForNode:[path objectAtIndex:1]];
 		
 		[[CCActionManager sharedManager] addAction:[CCSequence actionsInArray:actions] 
 											target:ghost 
 											paused:NO];
-	} else {
-		
-		NSLog(@"No path found for ghost.");
 	}
 }
 

@@ -25,7 +25,7 @@
 		
 		[[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"Tiles.plist"];
 		
-		tiles = [[NSMutableArray alloc] init];
+		[self setTiles:nil];
 		
 		[self setLevelNumber:level];
 		

@@ -42,5 +42,15 @@
 	return (double)[self contentSize].height / 2;
 }
 
+- (CGRect)rect {
+	
+	CGRect r = CGRectMake([self x], 
+						   [self y], 
+						   [self width], 
+						   [self height]);
+	
+	return r;
+}
+
 
 @end

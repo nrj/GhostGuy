@@ -24,7 +24,6 @@
 	GhostAI *ghostAI;
 }
 
-
 @property(readwrite, assign) BOOL gameStarted;
 
 @property(readwrite, assign) int currentLevel;

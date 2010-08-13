@@ -614,8 +614,8 @@
 		0BA3CD0511D9736A00108B74 /* protocol */ = {
 			isa = PBXGroup;
 			children = (
-				0BA3CD0611D9739500108B74 /* AStarNode.h */,
 				0B2473A6121312DF00144771 /* Player.h */,
+				0BA3CD0611D9739500108B74 /* AStarNode.h */,
 				0B2473BB1213145300144771 /* PacmanAIDelegate.h */,
 				0B2473BC1213146400144771 /* GhostAIDelegate.h */,
 			);
@@ -678,12 +678,12 @@
 		0BE3F615121203C600871E65 /* AI */ = {
 			isa = PBXGroup;
 			children = (
+				0B2473A31212F30200144771 /* AIBase.h */,
+				0B2473A41212F30200144771 /* AIBase.m */,
 				0B24739B121204B300144771 /* GhostAI.m */,
 				0B24739C121204B300144771 /* GhostAI.h */,
 				0B24739D121204B300144771 /* PacmanAI.m */,
 				0B24739E121204B300144771 /* PacmanAI.h */,
-				0B2473A31212F30200144771 /* AIBase.h */,
-				0B2473A41212F30200144771 /* AIBase.m */,
 			);
 			path = AI;
 			sourceTree = "<group>";
@@ -741,12 +741,12 @@
 			isa = PBXGroup;
 			children = (
 				0BE3F615121203C600871E65 /* AI */,
+				0BD4AB0C11CFF3F3005A40DF /* control */,
+				0BD4AB0B11CFF3ED005A40DF /* view */,
 				0BA3CD0511D9736A00108B74 /* protocol */,
 				0B0975CF11D03A1D00AFB942 /* util */,
 				0BD4AB3A11D0117C005A40DF /* enum */,
 				0BD4AB0A11CFF3E5005A40DF /* model */,
-				0BD4AB0B11CFF3ED005A40DF /* view */,
-				0BD4AB0C11CFF3F3005A40DF /* control */,
 			);
 			path = Classes;
 			sourceTree = "<group>";

@@ -52,6 +52,15 @@
 	return type;
 }
 
+- (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+	
+	NSLog(@"Touches, %@", touches);
+	
+	UITouch *touch = [touches anyObject];
+	CGPoint touchLocation = [touch locationInView:[touch view]];
+	touchLocation = [[CCDirector sharedDirector] convertToGL:touchLocation];
+}
+
 
 - (void)setType:(MapTileType)value {
 
@@ -165,10 +174,10 @@
 - (int)weight {
 	
 	if (type == MapTileSmallDot) 
-		return 10;
+		return 0;
 	
 	if (type == MapTileBigDot)	
-		return 20;
+		return 0;
 	
 	return 0;
 }

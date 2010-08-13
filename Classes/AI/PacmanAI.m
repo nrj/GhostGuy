@@ -129,10 +129,6 @@
 		[[CCActionManager sharedManager] addAction:[CCSequence actionsInArray:actions] 
 											target:pacman 
 											paused:NO];
-	} 
-	else {
-		
-		NSLog(@"No path found for pacman.");
 	}
 }
 
