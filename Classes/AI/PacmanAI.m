@@ -17,7 +17,7 @@
 
 - (int)aiKey {
 	
-	return 0;
+	return 2;
 }
 
 
@@ -30,8 +30,8 @@
 		NSArray *path = [self findPathToNode:goal fromNode:[pacman currentTile]];
 		
 		if ([path count] > 0) {
-
-			NSArray *moveActions = [self moveActionsForNode:[path objectAtIndex:1]];
+			[self setCurrentPath:[NSMutableArray arrayWithArray:path]];
+			NSArray *moveActions = [self moveActionsForNode:[path objectAtIndex:0]];
 			[pacman runAction:[CCSequence actionsInArray:moveActions]];
 		}
 	}
@@ -120,11 +120,40 @@
 	
 	id <AStarNode>goal = [self updateTargetNode];
 	
-	NSArray *path = [self findPathToNode:goal fromNode:tile];
+	BOOL recalculatePath = NO;
 	
-	if ([path count] > 0) {
+	if (goal != [currentPath lastObject]) {
 		
-		NSArray *actions = [self moveActionsForNode:[path objectAtIndex:1]];
+		recalculatePath = YES;
+	}
+	else {
+		
+		for (id <AStarNode>node in currentPath) {
+		
+			if ([self enemyIsOnNode:node]) {
+				
+				recalculatePath = YES;
+				break;
+			}
+		}
+	}
+	
+
+	if (recalculatePath) {
+	
+		NSLog(@"Recalculating pacman path ...");
+		
+		NSArray *path = [self findPathToNode:goal fromNode:tile];
+		[self setCurrentPath:[NSMutableArray arrayWithArray:path]];
+	}
+	else {
+	
+		[currentPath removeObjectAtIndex:0];
+	}
+	
+	if ([currentPath count] > 0) {
+		
+		NSArray *actions = [self moveActionsForNode:[currentPath objectAtIndex:0]];
 		
 		[[CCActionManager sharedManager] addAction:[CCSequence actionsInArray:actions] 
 											target:pacman 

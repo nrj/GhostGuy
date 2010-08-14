@@ -21,6 +21,11 @@
 
 - (void)travelToTile:(MapTile *)tile {
 
+	if (tile == [ghost currentTile]) {
+		
+		return;
+	}
+	
 	if (![tile isWalkable]) {
 		
 		NSArray *neighbors = [tile getWalkableNeighbors:(NSArray *)[map tiles]];
@@ -52,11 +57,15 @@
 									fromNode:[ghost currentTile]];
 		
 		if ([path count] > 0) {
-			
-			NSArray *moveActions = [self moveActionsForNode:[path objectAtIndex:1]];
+			[self setCurrentPath:[NSMutableArray arrayWithArray:path]];
+			NSArray *moveActions = [self moveActionsForNode:[currentPath objectAtIndex:0]];
 			[ghost runAction:[CCSequence actionsInArray:moveActions]];
 		}
-	}	
+	}
+	else {
+	
+		[self setCurrentTarget:tile];
+	}
 }
 
 
@@ -111,24 +120,33 @@
 
 
 - (void)ghost:(id)sender didMoveTo:(MapTile *)tile {
-	
-//	NSLog(@"ghost:didMoveTo:%@", tile);
 
 	[ghost setCurrentTile:tile];
 	
 	id <AStarNode>goal = [self updateTargetNode];
 	
-	NSArray *path = [self findPathToNode:goal fromNode:tile];
-	
-	if (goal && [path count] > 0) {
+	BOOL recalculatePath = (goal != [currentPath lastObject]);
 		
-		NSArray *actions = [self moveActionsForNode:[path objectAtIndex:1]];
+	if (recalculatePath) {
+		
+		NSLog(@"Recalculating ghost path ...");
+		
+		NSArray *path = [self findPathToNode:goal fromNode:tile];
+		[self setCurrentPath:[NSMutableArray arrayWithArray:path]];
+	}
+	else {
+		
+		[currentPath removeObjectAtIndex:0];
+	}
+	
+	if ([currentPath count] > 0) {
+		
+		NSArray *actions = [self moveActionsForNode:[currentPath objectAtIndex:0]];
 		
 		[[CCActionManager sharedManager] addAction:[CCSequence actionsInArray:actions] 
 											target:ghost 
 											paused:NO];
-	}
-}
+	}}
 
 
 @end

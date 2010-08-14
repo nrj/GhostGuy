@@ -25,6 +25,8 @@
 
 @synthesize currentTarget;
 
+@synthesize currentPath;
+
 
 - (id)initWithMap:(GhostGuyMap *)m pacman:(Pacman *)p ghost:(Ghost *)g {
 	
@@ -34,6 +36,7 @@
 		[self setPacman:p];
 		[self setGhost:g];
 		[self setCurrentTarget:nil];
+		[self setCurrentPath:nil];
 		
 		return self;
 	}
@@ -48,6 +51,7 @@
 	[pacman release];
 	[ghost release];
 	[currentTarget release];
+	[currentPath release];
 	
 	[super dealloc];
 }
@@ -119,6 +123,26 @@
 }
 
 
+- (BOOL)enemyIsOnNode:(id <AStarNode>)node {
+	
+	BOOL enemyEncounter = NO;
+	
+	if ([self enemies]) {
+		
+		for (id <Player>enemy in [self enemies]) {
+			
+			if ([enemy currentTile] == (MapTile *)node) {
+				
+				enemyEncounter = YES;
+				break;
+			}
+		}
+	}
+	
+	return enemyEncounter;
+}
+
+
 - (NSArray *)findPathToNode:(id <AStarNode>)goal fromNode:(id <AStarNode>)start {
 		
 	[start setG:[AStarUtil distanceTraveledToNode:start forId:[self aiKey]]];
@@ -141,6 +165,8 @@
 				currentNode = node;
 			}
 		}
+		
+		if ([self enemyIsOnNode:goal]) return nil;
 		
 		if (currentNode == goal) { 
 			
@@ -166,21 +192,9 @@
 			
 			for (id <AStarNode>neighbor in neighbors) {
 
-				BOOL enemyEncounter = NO;
+				if ([self enemyIsOnNode:neighbor]) continue;
 				
-				if ([self enemies]) {
-					
-					for (id <Player>enemy in [self enemies]) {
-						
-						if ([enemy currentTile] == (MapTile *)neighbor) {
-							
-							enemyEncounter = YES;
-							break;
-						}
-					}
-				}
-				
-				if (!enemyEncounter && ![openList containsObject:neighbor] && ![closedList containsObject:neighbor]){
+				if (![openList containsObject:neighbor] && ![closedList containsObject:neighbor]){
 					
 					[neighbor setG:newG];
 					[neighbor setH:[AStarUtil heuristicForStartNode:neighbor endNode:goal]];
@@ -196,6 +210,11 @@
 	for (id <AStarNode>node in pathToTake) {
 		
 		[node deleteParentNodeForId:[self aiKey]];
+	}
+	
+	if ([pathToTake count] > 0) {
+		
+		[pathToTake removeObjectAtIndex:0];
 	}
 	
 	return [NSArray arrayWithArray:pathToTake];

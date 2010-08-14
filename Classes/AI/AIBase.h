@@ -17,6 +17,7 @@
 	Pacman *pacman;
 	Ghost *ghost;
 	MapTile *currentTarget;
+	NSMutableArray *currentPath;
 }
 
 
@@ -27,6 +28,8 @@
 @property(readwrite, retain) Ghost *ghost;
 
 @property(readwrite, retain) MapTile *currentTarget;
+
+@property(readwrite, retain) NSMutableArray *currentPath;
 
 
 - (void)start;
@@ -43,5 +46,6 @@
 
 - (NSArray *)moveActionsForNode:(id <AStarNode>)node;
 
+- (BOOL)enemyIsOnNode:(id <AStarNode>)node;
 
 @end
