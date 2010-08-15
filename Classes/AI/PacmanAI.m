@@ -59,18 +59,27 @@
 
 - (NSArray *)moveActionsForNode:(id <AStarNode>)node {
 	
-	id actionWillMove = [CCCallFuncND actionWithTarget:self 
-											  selector:@selector(pacman:willMoveTo:) 
-												  data:node];
+	NSString *cacheKey = [NSString stringWithFormat:@"%d", [node index]];
+	NSArray *actions = nil;
 	
-	id actionMove = [CCMoveTo actionWithDuration:.15f
-										position:[node position]];
+	if (!((actions = [actionCache objectForKey:cacheKey]))) {
+		
+		id actionWillMove = [CCCallFuncND actionWithTarget:self 
+												  selector:@selector(pacman:willMoveTo:) 
+													  data:node];
+		
+		id actionMove = [CCMoveTo actionWithDuration:.18f
+											position:[node position]];
+		
+		id actionDidMove = [CCCallFuncND actionWithTarget:self 
+												 selector:@selector(pacman:didMoveTo:)
+													 data:node];
+		
+		actions = [NSArray arrayWithObjects:actionWillMove, actionMove, actionDidMove, NULL];
+		[actionCache setObject:actions forKey:cacheKey];
+	}
 	
-	id actionDidMove = [CCCallFuncND actionWithTarget:self 
-											 selector:@selector(pacman:didMoveTo:)
-												 data:node];
-	
-	return [NSArray arrayWithObjects:actionWillMove, actionMove, actionDidMove, NULL];
+	return actions;
 }
 
 

@@ -22,7 +22,8 @@
 - (void)travelToTile:(MapTile *)tile {
 
 	if (tile == [ghost currentTile]) {
-		
+
+		[self setCurrentTarget:nil];
 		return;
 	}
 	
@@ -39,6 +40,8 @@
 			return;
 		}
 	}
+	
+	[tile select];
 	
 	BOOL runAction = NO;
 	
@@ -83,18 +86,27 @@
 
 - (NSArray *)moveActionsForNode:(id <AStarNode>)node {
 	
-	id actionWillMove = [CCCallFuncND actionWithTarget:self 
-											  selector:@selector(ghost:willMoveTo:) 
-												  data:node];
+	NSString *cacheKey = [NSString stringWithFormat:@"%d", [node index]];
+	NSArray *actions = nil;
+
+	if (!((actions = [actionCache objectForKey:cacheKey]))) {
+				
+		id actionWillMove = [CCCallFuncND actionWithTarget:self 
+												  selector:@selector(ghost:willMoveTo:) 
+													  data:node];
+		
+		id actionMove = [CCMoveTo actionWithDuration:.18f
+											position:[node position]];
+		
+		id actionDidMove = [CCCallFuncND actionWithTarget:self 
+												 selector:@selector(ghost:didMoveTo:)
+													 data:node];
+		
+		actions = [NSArray arrayWithObjects:actionWillMove, actionMove, actionDidMove, NULL];
+		[actionCache setObject:actions forKey:cacheKey];
+	}
 	
-	id actionMove = [CCMoveTo actionWithDuration:.22f
-										position:[node position]];
-	
-	id actionDidMove = [CCCallFuncND actionWithTarget:self 
-											 selector:@selector(ghost:didMoveTo:)
-												 data:node];
-	
-	return [NSArray arrayWithObjects:actionWillMove, actionMove, actionDidMove, NULL];
+	return actions;
 }
 
 

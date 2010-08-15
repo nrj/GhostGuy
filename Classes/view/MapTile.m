@@ -22,6 +22,8 @@
 
 @synthesize parentMap;
 
+@synthesize overlay;
+
 
 - (id)initWithType:(MapTileType)aType index:(int)num {
 	
@@ -35,6 +37,11 @@
 		[self setF:0];
 		[self setG:0];
 		[self setH:0];
+		
+		[self setOverlay:[CCSprite spriteWithSpriteFrameName:@"tile-select.png"]];
+		[overlay setPosition:ccp([self width] / 2, [self height] / 2)];
+		[overlay setOpacity:0];
+		[self addChild:overlay];
 	}
 	
 	return self;
@@ -283,6 +290,18 @@
 		
 		[parentMap setValue:nil forKey:key];
 	}
+}
+
+
+- (void)select {
+	
+	[overlay setScale:1.0];
+	
+	id fadeIn = [CCFadeIn actionWithDuration:.1];
+	id growOut = [CCScaleBy actionWithDuration:.1 scale:1.4];
+	id fadeOut = [CCFadeOut actionWithDuration:.5];
+
+	[overlay runAction:[CCSequence actions: fadeIn, growOut, fadeOut, nil]];
 }
 
 

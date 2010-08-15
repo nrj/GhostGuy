@@ -15,6 +15,8 @@
 		0B24739F121204B300144771 /* GhostAI.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B24739B121204B300144771 /* GhostAI.m */; };
 		0B2473A0121204B300144771 /* PacmanAI.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B24739D121204B300144771 /* PacmanAI.m */; };
 		0B2473A51212F30200144771 /* AIBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2473A41212F30200144771 /* AIBase.m */; };
+		0B2946891218881F004A039C /* tile-select.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B2946871218881F004A039C /* tile-select.png */; };
+		0B29468A1218881F004A039C /* tile-ghost-pink-right.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B2946881218881F004A039C /* tile-ghost-pink-right.png */; };
 		0BA3CCD211D96D1500108B74 /* AStarUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BA3CCD111D96D1500108B74 /* AStarUtil.m */; };
 		0BA3CF3011DA7DD400108B74 /* tile-pacman-open-down.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BA3CF2B11DA7DD400108B74 /* tile-pacman-open-down.png */; };
 		0BA3CF3111DA7DD400108B74 /* tile-pacman-open-left.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BA3CF2C11DA7DD400108B74 /* tile-pacman-open-left.png */; };
@@ -285,6 +287,8 @@
 		0B2473A6121312DF00144771 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
 		0B2473BB1213145300144771 /* PacmanAIDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PacmanAIDelegate.h; sourceTree = "<group>"; };
 		0B2473BC1213146400144771 /* GhostAIDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GhostAIDelegate.h; sourceTree = "<group>"; };
+		0B2946871218881F004A039C /* tile-select.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tile-select.png"; sourceTree = "<group>"; };
+		0B2946881218881F004A039C /* tile-ghost-pink-right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tile-ghost-pink-right.png"; sourceTree = "<group>"; };
 		0BA3CCD011D96D1500108B74 /* AStarUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AStarUtil.h; sourceTree = "<group>"; };
 		0BA3CCD111D96D1500108B74 /* AStarUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AStarUtil.m; sourceTree = "<group>"; };
 		0BA3CD0611D9739500108B74 /* AStarNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AStarNode.h; sourceTree = "<group>"; };
@@ -587,6 +591,8 @@
 		0B9E0F4C11CFB87F00E08F01 /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				0B2946871218881F004A039C /* tile-select.png */,
+				0B2946881218881F004A039C /* tile-ghost-pink-right.png */,
 				0BE3F48C1211BB4500871E65 /* tile-ghost-orange-left.png */,
 				0B071E83121068F000C588E3 /* tile-horizontal-left-end.png */,
 				0B071E84121068F000C588E3 /* tile-horizontal-right-end.png */,
@@ -1239,6 +1245,8 @@
 				0B071E89121068F100C588E3 /* tile-vertical-bottom-end.png in Resources */,
 				0B071E8A121068F100C588E3 /* tile-vertical-top-end.png in Resources */,
 				0BE3F48D1211BB4500871E65 /* tile-ghost-orange-left.png in Resources */,
+				0B2946891218881F004A039C /* tile-select.png in Resources */,
+				0B29468A1218881F004A039C /* tile-ghost-pink-right.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

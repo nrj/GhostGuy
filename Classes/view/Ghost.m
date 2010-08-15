@@ -19,7 +19,7 @@
 		case PlayerDirectionRight:
 		case PlayerDirectionDown:
 		case PlayerDirectionLeft:
-			return @"tile-ghost-orange-left.png";
+			return @"tile-ghost-pink-right.png";
 	}
 	
 	return nil;

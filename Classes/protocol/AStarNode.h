@@ -8,8 +8,8 @@
 
 @protocol AStarNode
 
+- (int)index;
 - (int)row;
-
 - (int)column;
 
 - (void)setF:(int)value;

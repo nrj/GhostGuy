@@ -26,6 +26,7 @@
 	int index;
 	int f, g, h;
 	NSMutableDictionary *parentMap; // TODO - find something else that uses weak keys
+	CCSprite *overlay;
 }
 
 @property(readwrite, assign) int index;
@@ -33,6 +34,7 @@
 @property(readwrite, assign) int g;
 @property(readwrite, assign) int h;
 @property(readwrite, retain) NSMutableDictionary *parentMap;
+@property(readwrite, retain) CCSprite *overlay;
 
 - (NSString *)description;
 
@@ -60,5 +62,6 @@
 + (CGPoint)positionForIndex:(int)num;
 
 - (int)weight;
+- (void)select;
 
 @end

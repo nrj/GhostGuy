@@ -18,6 +18,7 @@
 	Ghost *ghost;
 	MapTile *currentTarget;
 	NSMutableArray *currentPath;
+	NSMutableDictionary *actionCache;
 }
 
 
@@ -30,6 +31,8 @@
 @property(readwrite, retain) MapTile *currentTarget;
 
 @property(readwrite, retain) NSMutableArray *currentPath;
+
+@property(readwrite, retain) NSMutableDictionary *actionCache;
 
 
 - (void)start;

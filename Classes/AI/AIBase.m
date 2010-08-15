@@ -27,6 +27,8 @@
 
 @synthesize currentPath;
 
+@synthesize actionCache;
+
 
 - (id)initWithMap:(GhostGuyMap *)m pacman:(Pacman *)p ghost:(Ghost *)g {
 	
@@ -37,6 +39,7 @@
 		[self setGhost:g];
 		[self setCurrentTarget:nil];
 		[self setCurrentPath:nil];
+		[self setActionCache:[NSMutableDictionary dictionary]];
 		
 		return self;
 	}
@@ -52,6 +55,7 @@
 	[ghost release];
 	[currentTarget release];
 	[currentPath release];
+	[actionCache release];
 	
 	[super dealloc];
 }
