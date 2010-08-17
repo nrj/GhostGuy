@@ -22,6 +22,10 @@
 	PacmanAI *pacmanAI;
 	Ghost *ghost;
 	GhostAI *ghostAI;
+
+	NSMutableArray *drawnPath;
+	CCRenderTexture *canvas;
+	CCSprite *brush;
 }
 
 @property(readwrite, assign) BOOL gameStarted;
@@ -51,5 +55,6 @@
 
 - (int)winWidth;
 
+- (void)updateDrawnPath;
 
 @end

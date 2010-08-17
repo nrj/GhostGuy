@@ -23,6 +23,7 @@
 		0BA3CF3211DA7DD400108B74 /* tile-pacman-open-right.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BA3CF2D11DA7DD400108B74 /* tile-pacman-open-right.png */; };
 		0BA3CF3311DA7DD400108B74 /* tile-pacman-open-up.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BA3CF2E11DA7DD400108B74 /* tile-pacman-open-up.png */; };
 		0BA3CF3411DA7DD400108B74 /* tile-small-dot-highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BA3CF2F11DA7DD400108B74 /* tile-small-dot-highlight.png */; };
+		0BC54F2B12199BC4003ACB15 /* brush-pink.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BC54F2A12199BC4003ACB15 /* brush-pink.png */; };
 		0BD4AB1511CFF4E4005A40DF /* MapTile.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD4AB0E11CFF4E4005A40DF /* MapTile.m */; };
 		0BD4AB1611CFF4E4005A40DF /* GameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD4AB1011CFF4E4005A40DF /* GameScene.m */; };
 		0BD4AB1711CFF4E4005A40DF /* Pacman.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD4AB1211CFF4E4005A40DF /* Pacman.m */; };
@@ -297,6 +298,7 @@
 		0BA3CF2D11DA7DD400108B74 /* tile-pacman-open-right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tile-pacman-open-right.png"; sourceTree = "<group>"; };
 		0BA3CF2E11DA7DD400108B74 /* tile-pacman-open-up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tile-pacman-open-up.png"; sourceTree = "<group>"; };
 		0BA3CF2F11DA7DD400108B74 /* tile-small-dot-highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tile-small-dot-highlight.png"; sourceTree = "<group>"; };
+		0BC54F2A12199BC4003ACB15 /* brush-pink.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "brush-pink.png"; sourceTree = "<group>"; };
 		0BD4AB0D11CFF4E4005A40DF /* MapTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapTile.h; sourceTree = "<group>"; };
 		0BD4AB0E11CFF4E4005A40DF /* MapTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapTile.m; sourceTree = "<group>"; };
 		0BD4AB0F11CFF4E4005A40DF /* GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameScene.h; sourceTree = "<group>"; };
@@ -591,6 +593,7 @@
 		0B9E0F4C11CFB87F00E08F01 /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				0BC54F2A12199BC4003ACB15 /* brush-pink.png */,
 				0B2946871218881F004A039C /* tile-select.png */,
 				0B2946881218881F004A039C /* tile-ghost-pink-right.png */,
 				0BE3F48C1211BB4500871E65 /* tile-ghost-orange-left.png */,
@@ -749,10 +752,10 @@
 				0BE3F615121203C600871E65 /* AI */,
 				0BD4AB0C11CFF3F3005A40DF /* control */,
 				0BD4AB0B11CFF3ED005A40DF /* view */,
+				0BD4AB0A11CFF3E5005A40DF /* model */,
 				0BA3CD0511D9736A00108B74 /* protocol */,
 				0B0975CF11D03A1D00AFB942 /* util */,
 				0BD4AB3A11D0117C005A40DF /* enum */,
-				0BD4AB0A11CFF3E5005A40DF /* model */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -1247,6 +1250,7 @@
 				0BE3F48D1211BB4500871E65 /* tile-ghost-orange-left.png in Resources */,
 				0B2946891218881F004A039C /* tile-select.png in Resources */,
 				0B29468A1218881F004A039C /* tile-ghost-pink-right.png in Resources */,
+				0BC54F2B12199BC4003ACB15 /* brush-pink.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

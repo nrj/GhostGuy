@@ -40,6 +40,66 @@
 }
 
 
+- (MapTile *)getWalkableTileForPoint:(CGPoint)p snapRect:(BOOL)snap {
+	
+//	NSLog(@"Getting tile at %0.f,%0.f", p.x, p.y);
+	
+	MapTile *tile = nil;
+	for (MapTile *t in tiles) {
+		
+		if (![t isWalkable])
+			continue;
+		
+		if ((snap && CGRectContainsPoint([t snapRect], p)) ||
+			(!snap && CGRectContainsPoint([t rect], p))) {
+			
+			tile = t;
+			
+//			NSLog(@"Found Tile. Rect is %0.f,%0.f", [t rect].origin.x, [t rect].origin.y);			
+		}
+	}
+	
+//	if (tile && ![tile isWalkable]) {
+//		
+//		NSArray *neighbors = [tile getWalkableNeighbors:tiles];
+//		
+//		if ([neighbors count] > 0) {
+//			
+//			tile = [neighbors objectAtIndex:(arc4random() % [neighbors count])];
+//		}
+//	}
+//	
+//	return tile;
+
+	return tile;
+}
+
+
+- (MapTile *)getSnapableTileForPoint:(CGPoint)p {
+	
+	MapTile *tile = nil;
+	for (MapTile *t in tiles) {
+		
+		if (CGRectContainsPoint([t snapRect], p)) {
+			
+			tile = t;
+		}
+	}
+	
+	if (tile && ![tile isWalkable]) {
+		
+		NSArray *neighbors = [tile getWalkableNeighbors:tiles];
+		
+		if ([neighbors count] > 0) {
+			
+			tile = [neighbors objectAtIndex:(arc4random() % [neighbors count])];
+		}
+	}
+	
+	return tile;
+}
+
+
 - (NSArray *)edibleTilesInQuadrant:(int)q {
 	
 	NSMutableArray *quadrantTiles = [NSMutableArray array];

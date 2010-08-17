@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 
-@class BitmapImage;
+@class BitmapImage, MapTile;
 
 
 @interface GhostGuyMap : NSObject {
@@ -28,5 +28,8 @@
 - (NSArray *)edibleTiles;
 
 - (NSArray *)edibleTilesInQuadrant:(int)q;
+
+- (MapTile *)getWalkableTileForPoint:(CGPoint)p snapRect:(BOOL)snap;
+
 
 @end

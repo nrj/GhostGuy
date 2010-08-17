@@ -44,12 +44,17 @@
 
 - (CGRect)rect {
 	
-	CGRect r = CGRectMake([self x], 
-						   [self y], 
+	CGRect r = CGRectMake( [self x] - ([self width] / 2), 
+						   [self y] - ([self height] / 2), 
 						   [self width], 
 						   [self height]);
 	
 	return r;
+}
+
+- (CGRect)snapRect {
+
+	return CGRectInset([self rect], 4, 4);
 }
 
 

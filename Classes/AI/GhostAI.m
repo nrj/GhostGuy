@@ -20,28 +20,6 @@
 
 
 - (void)travelToTile:(MapTile *)tile {
-
-	if (tile == [ghost currentTile]) {
-
-		[self setCurrentTarget:nil];
-		return;
-	}
-	
-	if (![tile isWalkable]) {
-		
-		NSArray *neighbors = [tile getWalkableNeighbors:(NSArray *)[map tiles]];
-		
-		if ([neighbors count] > 0) {
-		
-			tile = [neighbors objectAtIndex:(arc4random() % [neighbors count])];
-		}
-		else {
-		
-			return;
-		}
-	}
-	
-	[tile select];
 	
 	BOOL runAction = NO;
 	

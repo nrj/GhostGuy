@@ -21,5 +21,6 @@
 - (double)centerY;
 
 - (CGRect)rect;
+- (CGRect)snapRect;
 
 @end

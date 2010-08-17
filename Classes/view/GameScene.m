@@ -53,12 +53,205 @@
 	
 	if ((self = [super init])) {
 		
-		[self setIsTouchEnabled:YES];
 		[self setCurrentLevel:0];
 		[self drawMapForLevelNumber:currentLevel];
+
+		drawnPath = [[NSMutableArray array] retain];
+		
+		CGSize s = [[CCDirector sharedDirector] winSize];	
+		
+		// create a render texture, this is what we're going to draw into
+		canvas = [[CCRenderTexture renderTextureWithWidth:s.width height:s.height] retain];
+		[canvas setPosition:ccp(s.width/2, s.height/2)];
+		
+		// note that the render texture is a cocosnode, and contains a sprite of it's texture for convience,
+		// so we can just parent it to the scene like any other cocos node
+		[self addChild:canvas z:1];
+		
+		// create a brush image to draw into the texture with
+		brush = [[CCSprite spriteWithFile:@"brush-pink.png"] retain];
+		[brush setBlendFunc: (ccBlendFunc) { GL_ONE, GL_ONE_MINUS_SRC_ALPHA }];  
+
+		self.isTouchEnabled = YES;
 	}
 	
 	return self;
+}
+
+
+- (void)updateDrawnPath {
+	
+	if (drawnPath > 0) {
+				
+		MapTile *currentTile = nil;
+		
+		for (MapTile *nextTile in drawnPath) {
+			
+			if (!currentTile) {
+				
+				currentTile = nextTile;
+			}
+			else {
+				
+				CGPoint start = [currentTile position];
+				CGPoint end = [nextTile position];
+				
+				float distance = ccpDistance(start, end);
+				for (int i = 0; i < distance; i++) {
+					
+					float difx = end.x - start.x;
+					float dify = end.y - start.y;
+					
+					float delta = (float)i / distance;
+					
+					CGPoint pos = ccp(start.x + (difx * delta), start.y + (dify * delta));
+					
+					[brush setBlendFunc: (ccBlendFunc) { GL_ONE, GL_ONE_MINUS_SRC_ALPHA }];  
+					[brush setOpacity:90];
+					[brush setPosition:pos];
+					[brush visit];
+				}
+				
+				currentTile = nextTile;
+			}
+		}
+	}
+}
+
+
+- (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+	
+	if (!gameStarted) {
+	
+		[self start];
+	}
+	
+	UITouch *touch = [touches anyObject];
+	CGPoint touchLocation = [touch locationInView: [touch view]];	
+	touchLocation = [[CCDirector sharedDirector] convertToGL:touchLocation];
+	
+	[drawnPath removeAllObjects];
+	
+	MapTile *tileSelected = [currentMap getWalkableTileForPoint:touchLocation 
+													   snapRect:NO];
+	
+	if (tileSelected && ![drawnPath containsObject:tileSelected]) {
+		
+		[drawnPath addObject:tileSelected];
+	}
+	else {
+	
+		[canvas clear:0 g:0 b:0 a:0];
+	}
+}
+
+
+-(void)ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+
+	if ([drawnPath count] == 0)
+		return;
+	
+	UITouch *touch = [touches anyObject];
+	CGPoint start = [[drawnPath lastObject] position];
+	CGPoint end = [touch previousLocationInView:[touch view]];
+	end = [[CCDirector sharedDirector] convertToGL:end];
+	
+	[canvas clear:0 g:0 b:0 a:0];
+	[canvas begin];
+	
+	[self updateDrawnPath];
+	
+	float distance = ccpDistance(start, end);
+	if (distance > 1)
+	{
+		int d = (int)distance;
+		for (int i = 0; i < d; i++)
+		{
+			float difx = end.x - start.x;
+			float dify = end.y - start.y;
+			
+			float delta = (float)i / distance;
+			
+			CGPoint brushPos = ccp(start.x + (difx * delta), start.y + (dify * delta));
+			
+			MapTile *snapTile = nil;
+
+			if ((snapTile = [currentMap getWalkableTileForPoint:brushPos snapRect:YES])) {
+									
+				NSArray *neighborTiles = [[drawnPath lastObject] getWalkableNeighbors:[currentMap tiles]];
+				
+				if ([neighborTiles containsObject:snapTile]) {
+					
+					[drawnPath addObject:snapTile];
+					[canvas end];
+					return;						
+				}
+				else if (snapTile != [drawnPath lastObject]) {
+					
+					NSArray *pathToSnapTile = [ghostAI findPathToNode:snapTile fromNode:[drawnPath lastObject]];
+					
+					NSLog(@"Path from %@ to %@ is %@", snapTile, [drawnPath lastObject], pathToSnapTile);
+					
+					if (pathToSnapTile && [pathToSnapTile count] > 0) {
+					
+						[drawnPath addObjectsFromArray:pathToSnapTile];
+						[canvas end];
+						return;
+					}
+				}
+			}			
+			
+			[brush setPosition:brushPos];
+			[brush setBlendFunc: (ccBlendFunc) { GL_ONE, GL_ONE_MINUS_SRC_ALPHA }];  
+			[brush setOpacity:90];
+			[brush visit];			
+		}
+	}
+
+	[canvas end];
+}
+
+
+- (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+
+	if ([drawnPath count] == 0)
+		return;
+	
+	[canvas clear:0 g:0 b:0 a:0];
+	[canvas begin];
+
+	[self updateDrawnPath];
+	
+	[canvas end];
+	
+	// draw a simple line
+	// The default state is:
+	// Line Width: 1
+	// color: 255,255,255,255 (white, non-transparent)
+	// Anti-Aliased
+	//	glEnable(GL_LINE_SMOOTH);
+	//	ccDrawLine( ccp([self winWidth] >> 1, [self winHeight] >> 1), ccp([self winWidth], [self winHeight]) );
+	
+	/*	if (!gameStarted) {
+	 
+	 [self start];
+	 } 
+	 else {		
+	 
+	 UITouch *touch = [touches anyObject];
+	 CGPoint touchLocation = [touch locationInView:[touch view]];
+	 touchLocation = [[CCDirector sharedDirector] convertToGL:touchLocation];
+	 
+	 for (MapTile *tile in [currentMap tiles]) {
+	 
+	 if (CGRectContainsPoint([tile rect], touchLocation)) {
+	 
+	 [ghostAI travelToTile:tile];
+	 return;
+	 }
+	 }
+	 }
+	 */
 }
 
 
@@ -220,29 +413,6 @@
 }
 
 
-- (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-	
-	if (!gameStarted) {
-
-		[self start];
-	} 
-	else {		
-
-		UITouch *touch = [touches anyObject];
-		CGPoint touchLocation = [touch locationInView:[touch view]];
-		touchLocation = [[CCDirector sharedDirector] convertToGL:touchLocation];
-		
-		for (MapTile *tile in [currentMap tiles]) {
-		
-			if (CGRectContainsPoint([tile rect], touchLocation)) {
-			
-				[ghostAI travelToTile:tile];
-				return;
-			}
-		}
-	}
-}
-
 
 - (void)start {
 	
@@ -252,8 +422,8 @@
 	[self setPacmanAI:pai];
 	[self setGhostAI:gai];
 	
-	[pai start];
-	[gai start];
+//	[pai start];
+//	[gai start];
 	
 	[pai release];
 	[gai release];
@@ -286,6 +456,9 @@
 	[ghostAI release];
 	[ghost release];
 	[currentMap release];
+	[brush release];
+	[canvas release];
+	[[CCTextureCache sharedTextureCache] removeUnusedTextures];	
 	[super dealloc];
 }
 
