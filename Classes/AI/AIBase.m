@@ -151,7 +151,6 @@
 		
 	[start setG:[AStarUtil distanceTraveledToNode:start forId:[self aiKey]]];
 	[start setH:[AStarUtil heuristicForStartNode:start endNode:goal]];
-	[start setF:([start g] + [start h])];
 	
 	NSMutableArray *openList = [NSMutableArray arrayWithObjects:start, NULL];
 	NSMutableArray *closedList = [NSMutableArray array];
@@ -198,11 +197,20 @@
 
 				if ([self enemyIsOnNode:neighbor]) continue;
 				
-				if (![openList containsObject:neighbor] && ![closedList containsObject:neighbor]){
+				if ([openList containsObject:neighbor] && newG < [neighbor g]) {
+
+					[neighbor setG:newG];
+					[neighbor setParentNode:currentNode forId:[self aiKey]];					
+				}
+				else if ([closedList containsObject:neighbor] && newG < [neighbor g]) {
+
+					[neighbor setG:newG];
+					[neighbor setParentNode:currentNode forId:[self aiKey]];
+				}
+				else if (![openList containsObject:neighbor] && ![closedList containsObject:neighbor]){
 					
 					[neighbor setG:newG];
 					[neighbor setH:[AStarUtil heuristicForStartNode:neighbor endNode:goal]];
-					[neighbor setF:(newG + [neighbor h])];
 					[neighbor setParentNode:currentNode forId:[self aiKey]];
 					
 					[openList addObject:neighbor];
@@ -211,7 +219,7 @@
 		}	
 	}
 	
-	for (id <AStarNode>node in pathToTake) {
+	for (id <AStarNode>node in [map tiles]) {
 		
 		[node deleteParentNodeForId:[self aiKey]];
 	}

@@ -14,8 +14,6 @@
 
 @synthesize index;
 
-@synthesize f;
-
 @synthesize g;
 
 @synthesize h;
@@ -34,7 +32,6 @@
 		[self setIndex:num];
 		[self setPosition:[MapTile positionForIndex:index]];
 		[self setParentMap:[NSMutableDictionary dictionary]];
-		[self setF:0];
 		[self setG:0];
 		[self setH:0];
 		
@@ -57,6 +54,11 @@
 - (MapTileType)type {
 	
 	return type;
+}
+
+- (int)f {
+	
+	return (g + h);
 }
 
 - (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {

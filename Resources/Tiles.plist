@@ -7,7 +7,7 @@
 		<key>tile-big-dot.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{68, 24}, {20, 20}}</string>
+			<string>{{100, 20}, {20, 20}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -20,7 +20,7 @@
 		<key>tile-bottom-left-corner.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{24, 24}, {20, 20}}</string>
+			<string>{{80, 20}, {20, 20}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -33,7 +33,7 @@
 		<key>tile-bottom-right-corner.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{2, 90}, {20, 20}}</string>
+			<string>{{100, 0}, {20, 20}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -46,7 +46,7 @@
 		<key>tile-empty-space.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{46, 24}, {20, 20}}</string>
+			<string>{{20, 0}, {20, 20}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -59,7 +59,7 @@
 		<key>tile-ghost-orange-left.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{68, 2}, {20, 20}}</string>
+			<string>{{0, 100}, {20, 20}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -72,7 +72,7 @@
 		<key>tile-ghost-pink-right.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{90, 2}, {20, 20}}</string>
+			<string>{{0, 60}, {20, 20}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -85,7 +85,7 @@
 		<key>tile-horizontal-left-end.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{2, 24}, {20, 20}}</string>
+			<string>{{20, 40}, {20, 20}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -98,7 +98,7 @@
 		<key>tile-horizontal-right-end.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{90, 46}, {20, 20}}</string>
+			<string>{{40, 0}, {20, 20}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -111,7 +111,7 @@
 		<key>tile-horizontal-wall.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{46, 68}, {20, 20}}</string>
+			<string>{{0, 40}, {20, 20}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -124,7 +124,7 @@
 		<key>tile-pacman-closed.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{24, 90}, {20, 20}}</string>
+			<string>{{0, 0}, {20, 20}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -137,7 +137,7 @@
 		<key>tile-pacman-open-down.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{68, 68}, {20, 20}}</string>
+			<string>{{20, 20}, {20, 20}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -150,7 +150,7 @@
 		<key>tile-pacman-open-left.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{46, 2}, {20, 20}}</string>
+			<string>{{80, 0}, {20, 20}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -163,7 +163,7 @@
 		<key>tile-pacman-open-right.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{46, 90}, {20, 20}}</string>
+			<string>{{20, 80}, {20, 20}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -176,7 +176,7 @@
 		<key>tile-pacman-open-up.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{24, 2}, {20, 20}}</string>
+			<string>{{40, 20}, {20, 20}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -189,7 +189,7 @@
 		<key>tile-select.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{2, 46}, {16, 16}}</string>
+			<string>{{60, 40}, {16, 16}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -202,7 +202,7 @@
 		<key>tile-small-dot-highlight.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{46, 46}, {20, 20}}</string>
+			<string>{{20, 100}, {20, 20}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -215,7 +215,7 @@
 		<key>tile-small-dot.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{24, 68}, {20, 20}}</string>
+			<string>{{0, 80}, {20, 20}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -228,7 +228,7 @@
 		<key>tile-top-left-corner.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{2, 68}, {20, 20}}</string>
+			<string>{{0, 20}, {20, 20}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -241,7 +241,7 @@
 		<key>tile-top-right-corner.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{2, 2}, {20, 20}}</string>
+			<string>{{60, 0}, {20, 20}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -254,7 +254,7 @@
 		<key>tile-vertical-bottom-end.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{90, 24}, {20, 20}}</string>
+			<string>{{60, 20}, {20, 20}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -267,7 +267,7 @@
 		<key>tile-vertical-top-end.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{68, 46}, {20, 20}}</string>
+			<string>{{20, 60}, {20, 20}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>
@@ -280,7 +280,7 @@
 		<key>tile-vertical-wall.png</key>
 		<dict>
 			<key>frame</key>
-			<string>{{24, 46}, {20, 20}}</string>
+			<string>{{40, 40}, {20, 20}}</string>
 			<key>offset</key>
 			<string>{0, -0}</string>
 			<key>rotated</key>

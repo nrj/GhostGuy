@@ -50,6 +50,19 @@
 }
 
 
+
+- (void)travelPath:(NSArray *)path {
+	
+	if ([path count] > 0) {
+		
+		[self setCurrentPath:[NSMutableArray arrayWithArray:path]];
+		[self setCurrentTarget:[path lastObject]];
+		NSArray *moveActions = [self moveActionsForNode:[currentPath objectAtIndex:0]];
+		[ghost runAction:[CCSequence actionsInArray:moveActions]];
+	}
+}
+
+
 - (int)aiKey {
 
 	return 1;

@@ -54,6 +54,7 @@
 	if ((self = [super init])) {
 		
 		[self setCurrentLevel:0];
+		
 		[self drawMapForLevelNumber:currentLevel];
 
 		drawnPath = [[NSMutableArray array] retain];
@@ -71,7 +72,7 @@
 		// create a brush image to draw into the texture with
 		brush = [[CCSprite spriteWithFile:@"brush-pink.png"] retain];
 		[brush setBlendFunc: (ccBlendFunc) { GL_ONE, GL_ONE_MINUS_SRC_ALPHA }];  
-
+		
 		self.isTouchEnabled = YES;
 	}
 	
@@ -223,6 +224,11 @@
 	[self updateDrawnPath];
 	
 	[canvas end];
+	
+	if ([drawnPath count] > 0) {
+		
+		[ghostAI travelPath:drawnPath];
+	}
 	
 	// draw a simple line
 	// The default state is:

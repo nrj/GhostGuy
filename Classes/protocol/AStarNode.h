@@ -12,7 +12,6 @@
 - (int)row;
 - (int)column;
 
-- (void)setF:(int)value;
 - (int)f;
 
 - (void)setG:(int)value;
