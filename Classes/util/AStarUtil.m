@@ -7,8 +7,41 @@
 
 #import "AStarUtil.h"
 #import "AStarNode.h"
+#import "cocos2d.h"
+#import "GGTile.h"
 
 @implementation AStarUtil
+
+
++ (NSArray *)createNodesForMap:(CCTMXTiledMap *)map layer:(CCTMXLayer *)layer {
+
+	NSMutableArray *arr = [NSMutableArray array];
+	CGSize s = [layer layerSize];
+
+	for (int row = 0; row < s.height; row++) {
+		
+		for (int col = 0; col < s.width; col++) {
+
+			int gid = [layer tileGIDAt:ccp(col, row)];
+			
+			NSDictionary *props = [map propertiesForGID:gid];
+			
+			float x = ((col + 1) * map.tileSize.width) - (map.tileSize.width / 2);
+			float y = (map.mapSize.height * map.tileSize.height) - (map.tileSize.height * row) - (map.tileSize.height / 2);
+		  
+			NSAssert(props != nil && [props objectForKey:@"type"] != nil, @"Invalid Tile Properties for GID %d", gid);
+			
+			GGTile *tile = [[GGTile alloc] initWithType:[[props objectForKey:@"type"] intValue]
+											   position:ccp(x, y) 
+													row:row 
+												 column:col];
+			
+			[arr addObject:tile];
+		}
+	}
+	
+	return [NSArray arrayWithArray:arr];
+}
 
 
 + (void)moveNode:(id <AStarNode>)node fromList:(NSMutableArray *)fromList toList:(NSMutableArray *)toList {

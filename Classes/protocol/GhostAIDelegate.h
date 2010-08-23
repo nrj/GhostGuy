@@ -7,14 +7,14 @@
 
 #import <UIKit/UIKit.h>
 
-@class MapTile;
+@class GGTile;
 
 @protocol GhostAIDelegate
 
 
-- (void)ghost:(id)sender willMoveTo:(MapTile *)tile;
+- (void)ghost:(id)sender willMoveTo:(GGTile *)tile;
 
-- (void)ghost:(id)sender didMoveTo:(MapTile *)tile;
+- (void)ghost:(id)sender didMoveTo:(GGTile *)tile;
 
 
 @end

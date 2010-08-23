@@ -7,10 +7,10 @@
 
 #import <UIKit/UIKit.h>
 
-@class MapTile;
+@class GGTile;
 
 @protocol Player
 
-- (MapTile *)currentTile;
+- (GGTile *)currentTile;
 
 @end

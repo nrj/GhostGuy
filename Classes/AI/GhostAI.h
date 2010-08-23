@@ -6,13 +6,15 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AIBase.h"
+#import "AIObject.h"
 #import "GhostAIDelegate.h"
 
-@interface GhostAI : AIBase <GhostAIDelegate> {
+@class GGTile;
+
+@interface GhostAI : AIObject <GhostAIDelegate> {
 
 }
 
-- (void)travelToTile:(MapTile *)tile;
+- (void)travelToTile:(GGTile *)tile;
 
 @end

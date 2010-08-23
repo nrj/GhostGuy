@@ -9,13 +9,13 @@
 #import "cocos2d.h"
 #import "Pacman.h"
 #import "Ghost.h"
-#import "MapTile.h"
+#import "GGTile.h"
 
 
 @implementation PacmanAI
 
 
-- (int)aiKey {
+- (int)gid {
 	
 	return 2;
 }
@@ -27,13 +27,7 @@
 	
 	if (goal) {
 	
-		NSArray *path = [self findPathToNode:goal fromNode:[pacman currentTile]];
-		
-		if ([path count] > 0) {
-			[self setCurrentPath:[NSMutableArray arrayWithArray:path]];
-			NSArray *moveActions = [self moveActionsForNode:[path objectAtIndex:0]];
-			[pacman runAction:[CCSequence actionsInArray:moveActions]];
-		}
+		[self findPathFrom:[pacman currentTile] to:goal];
 	}
 }
 
@@ -50,7 +44,7 @@
 	if (!currentTarget || currentTarget == [pacman currentTile]) {
 		
 		
-		[self setCurrentTarget:(MapTile *)[self randomTargetNode]];
+		[self setCurrentTarget:(GGTile *)[self randomTargetNode]];
 	}
 	
 	return currentTarget;
@@ -59,7 +53,7 @@
 
 - (NSArray *)moveActionsForNode:(id <AStarNode>)node {
 	
-	NSString *cacheKey = [NSString stringWithFormat:@"%d", [node index]];
+	NSString *cacheKey = [NSString stringWithFormat:@"%d,%d", [node row], [node column]];
 	NSArray *actions = nil;
 	
 	if (!((actions = [actionCache objectForKey:cacheKey]))) {
@@ -86,59 +80,41 @@
 #pragma mark PacmanAIDelegate methods
 
 
-- (void)pacman:(id)sender willMoveTo:(MapTile *)tile {
-	
-	// NSLog(@"pacman:willMoveTo:%@", tile);
+- (void)pacman:(id)sender willMoveTo:(GGTile *)tile {
 	
 	int newDirection = -1;
+
+	if ([self getIndexLeftOfNode:tile] == [nodes indexOfObject:[pacman currentTile]]) {
 	
-	if ([tile getLeftTileIndex] == [[pacman currentTile] index]) {
-		
 		newDirection = PlayerDirectionRight;
 	}
-	else if ([tile getRightTileIndex] == [[pacman currentTile] index]) {
+	else if ([self getIndexRightOfNode:tile] == [nodes indexOfObject:[pacman currentTile]]) {
 		
 		newDirection = PlayerDirectionLeft;
 	}
-	else if ([tile getTopTileIndex] == [[pacman currentTile] index]) {
+	else if ([self getIndexAboveNode:tile] == [nodes indexOfObject:[pacman currentTile]]) {
 		
 		newDirection = PlayerDirectionDown;
 	}
-	else if ([tile getBottomTileIndex] == [[pacman currentTile] index]) {
+	else if ([self getIndexBelowNode:tile] == [nodes indexOfObject:[pacman currentTile]]) {
 		
 		newDirection = PlayerDirectionUp;
 	}
 	
 	[pacman setDirection:newDirection];
-}
-
-
-- (void)pacman:(id)sender didMoveTo:(MapTile *)tile {
 	
-//	NSLog(@"pacman:didMoveTo:%@", tile);
-	
-	if ([tile isEdible]) {
-		
-		// Is the tile edible?
-		[tile setType:MapTileEmptySpace]; // Nom it
-	}
-	
-	[pacman setCurrentTile:tile];
-	
-	// Calculate the next path
-	
-	id <AStarNode>goal = [self updateTargetNode];
+	// Determine if we need to calculate a new path after this move
 	
 	BOOL recalculatePath = NO;
 	
-	if (goal != [currentPath lastObject]) {
+	if ([currentPath lastObject] == tile) {
 		
 		recalculatePath = YES;
 	}
 	else {
 		
 		for (id <AStarNode>node in currentPath) {
-		
+			
 			if ([self enemyIsOnNode:node]) {
 				
 				recalculatePath = YES;
@@ -147,18 +123,31 @@
 		}
 	}
 	
-
 	if (recalculatePath) {
-	
+		
 		NSLog(@"Recalculating pacman path ...");
 		
-		NSArray *path = [self findPathToNode:goal fromNode:tile];
-		[self setCurrentPath:[NSMutableArray arrayWithArray:path]];
+		id <AStarNode>goal = [self randomTargetNode];
+		
+		for (int i = ([currentPath count] - 1); i > [currentPath indexOfObject:tile]; i--) {
+		
+			[currentPath removeObjectAtIndex:i];
+		}
+		
+		[self findPathFrom:tile to:goal];
 	}
-	else {
+}
+
+
+- (void)pacman:(id)sender didMoveTo:(GGTile *)tile {
 	
-		[currentPath removeObjectAtIndex:0];
-	}
+//	if ([tile isEdible]) {
+//
+//		[tile setType:GGTileEmptySpace];
+//	}
+	
+	[pacman setCurrentTile:tile];
+	[currentPath removeObjectAtIndex:0];
 	
 	if ([currentPath count] > 0) {
 		
@@ -167,6 +156,10 @@
 		[[CCActionManager sharedManager] addAction:[CCSequence actionsInArray:actions] 
 											target:pacman 
 											paused:NO];
+	}
+	else {
+		
+		[self setReadyForNewPath:YES];
 	}
 }
 

@@ -9,7 +9,7 @@
 #import "cocos2d.h"
 #import "Pacman.h"
 #import "Ghost.h"
-#import "MapTile.h"
+#import "GGTile.h"
 
 @implementation GhostAI
 
@@ -19,7 +19,7 @@
 }
 
 
-- (void)travelToTile:(MapTile *)tile {
+- (void)travelToTile:(GGTile *)tile {
 	
 	BOOL runAction = NO;
 	
@@ -63,7 +63,7 @@
 }
 
 
-- (int)aiKey {
+- (int)gid {
 
 	return 1;
 }
@@ -77,7 +77,7 @@
 
 - (NSArray *)moveActionsForNode:(id <AStarNode>)node {
 	
-	NSString *cacheKey = [NSString stringWithFormat:@"%d", [node index]];
+	NSString *cacheKey = [NSString stringWithFormat:@"%d,%d", [node row], [node column]];
 	NSArray *actions = nil;
 
 	if (!((actions = [actionCache objectForKey:cacheKey]))) {
@@ -116,13 +116,13 @@
 #pragma mark GhostAIDelegate methods
 
 
-- (void)ghost:(id)sender willMoveTo:(MapTile *)tile {
+- (void)ghost:(id)sender willMoveTo:(GGTile *)tile {
 	
 	
 }
 
 
-- (void)ghost:(id)sender didMoveTo:(MapTile *)tile {
+- (void)ghost:(id)sender didMoveTo:(GGTile *)tile {
 
 	[ghost setCurrentTile:tile];
 	

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="24" height="30" tilewidth="20" tileheight="20">
+ <tileset firstgid="1" name="Tiles" tilewidth="20" tileheight="20">
+  <image source="../Tiles.png"/>
+  <tile id="0">
+   <properties>
+    <property name="type" value="3"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="type" value="3"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="type" value="3"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="type" value="3"/>
+   </properties>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="type" value="3"/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="type" value="3"/>
+   </properties>
+  </tile>
+  <tile id="12">
+   <properties>
+    <property name="type" value="3"/>
+   </properties>
+  </tile>
+  <tile id="14">
+   <properties>
+    <property name="type" value="1"/>
+   </properties>
+  </tile>
+  <tile id="19">
+   <properties>
+    <property name="type" value="0"/>
+   </properties>
+  </tile>
+  <tile id="24">
+   <properties>
+    <property name="type" value="3"/>
+   </properties>
+  </tile>
+  <tile id="25">
+   <properties>
+    <property name="type" value="2"/>
+   </properties>
+  </tile>
+  <tile id="31">
+   <properties>
+    <property name="type" value="3"/>
+   </properties>
+  </tile>
+  <tile id="32">
+   <properties>
+    <property name="type" value="3"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Tiles" width="24" height="30">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+1WMRKDMAwz0Lt24VhYspn/f7IsvvMJJXYbOjWDFrAUxbHjqIg8KphP7AE04JcTWwUloR/xW/9fDW+GtUO/F0N/6P9C/ynXPsQYhZipw39x607wLeL5HjWf5q2l5ddkXOttdpegHrsn8F7wXK/JOBa7JHKwAAe97I29Yw7Yedb2vBH/M8QeCf8HcFSu/qP8I4fVbC3/eN4+h5/UD3Iz8+uO+s/0L5tRWCc9/fsthv5/66vE7ys2e7L6d7wPW29AnA8MEf8NMRGAskALAAA=
+  </data>
+ </layer>
+ <objectgroup name="Objects" width="24" height="30">
+  <object name="PacmanSpawn" x="11" y="310"/>
+  <object name="PlayerSpawn" x="465" y="311"/>
+  <object name="" x="371" y="818"/>
+ </objectgroup>
+</map>

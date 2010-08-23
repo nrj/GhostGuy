@@ -17,19 +17,18 @@ typedef enum {
 	
 } PlayerDirection;
 
-
-@class MapTile;
+@class GGTile;
 
 @interface PlayerBase : SpriteBase {
 	
-	MapTile *currentTile;
+	GGTile *currentTile;
 	PlayerDirection direction;
 }
 
-@property(readwrite, assign) MapTile *currentTile;
+@property(readwrite, assign) GGTile *currentTile;
 @property(readwrite, assign) PlayerDirection direction;
 
-- (id)initWithCurrentTile:(MapTile *)tile direction:(PlayerDirection)dir;
+- (id)initWithCurrentTile:(GGTile *)tile direction:(PlayerDirection)dir;
 
 - (NSString *)imageForDirection:(PlayerDirection)dir;
 

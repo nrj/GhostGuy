@@ -8,10 +8,6 @@
 
 @protocol AStarNode
 
-- (int)index;
-- (int)row;
-- (int)column;
-
 - (int)f;
 
 - (void)setG:(int)value;
@@ -20,17 +16,12 @@
 - (void)setH:(int)value;
 - (int)h;
 
+- (int)row;
+- (int)column;
 - (CGPoint)position;
-
-- (NSArray *)getWalkableNeighbors:(NSArray *)nodes;
 
 - (void)setParentNode:(id <AStarNode>)value forId:(int)i;
 - (id <AStarNode>)getParentNodeForId:(int)i;
-- (void)deleteParentNodeForId:(int)i;
-
-- (void)highlight;
-- (void)unHighlight;
-
-- (int)weight;
+- (void)removeParentNodeForId:(int)i;
 
 @end

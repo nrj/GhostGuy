@@ -16,7 +16,7 @@
 @synthesize direction;
 
 
-- (id)initWithCurrentTile:(MapTile *)tile direction:(PlayerDirection)dir {
+- (id)initWithCurrentTile:(GGTile *)tile direction:(PlayerDirection)dir {
 	
 	if ((self = [self initWithSpriteFrameName:[self imageForDirection:dir]])) {
 		
